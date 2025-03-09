@@ -5,13 +5,13 @@
 export JJCMD_NAME="Jay Jay';
 export JJCMD_CODE='jjcmd';
 
-export JJCMD_VERSION='0.1.3';
+export JJCMD_VERSION='0.1.5';
 export JJCMD_VERSION_MAJOR='0';
 export JJCMD_VERSION_MINOR='1';
-export JJCMD_VERSION_PATCH='3';
+export JJCMD_VERSION_PATCH='5';
 
-export JJCMD_SVN_DATE='Date: 2025-03-09 21:53:04 +1100 (Sun, 09 Mar 2025)';
-export JJCMD_SVN_REVISION='Revision: 42148736';
+export JJCMD_SVN_DATE='Date: 2025-03-09 22:03:03 +1100 (Sun, 09 Mar 2025)';
+export JJCMD_SVN_REVISION='Revision: 39383699';
 export JJCMD_SVN_AUTHOR='Author: jj5';
 
-export JJCMD_GIT_DATE='2025-03-09 21:53:04 +1100 (Sun, 09 Mar 2025)';
+export JJCMD_GIT_DATE='2025-03-09 22:03:03 +1100 (Sun, 09 Mar 2025)';
