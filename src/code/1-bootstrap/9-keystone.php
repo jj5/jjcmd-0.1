@@ -20,7 +20,7 @@ require_once __DIR__ . '/5-module.php';
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-// 2025-03-09 jj5 - - application definition...
+// 2025-03-09 jj5 - application definition...
 //
 
 mud_define_app( 'JJCMD' );

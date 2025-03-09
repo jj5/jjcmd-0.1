@@ -17,3 +17,5 @@ require_once __DIR__ . '/class/2-AppShell.php';
 require_once __DIR__ . '/class/3-AppQuery.php';
 require_once __DIR__ . '/class/4-AppCommand.php';
 require_once __DIR__ . '/class/9-AppModule.php';
+
+mud_load_deep_breadth_first( __DIR__ . '/2-shell' );
