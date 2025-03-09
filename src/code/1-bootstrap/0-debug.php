@@ -20,6 +20,8 @@
   }
   else {
 
+    error_log( "missing debug config file: $app_debug" );
+
     define( 'DEBUG', false );
     define( 'DEV', false );
     define( 'BETA', false );
