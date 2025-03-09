@@ -19,5 +19,10 @@ if ( file_exists( JJCMD_CONFIG_PATH ) ) {
   require_once JJCMD_CONFIG_PATH;
 
 }
+else {
+
+  error_log( "missing config file: " . JJCMD_CONFIG_PATH );
+
+}
 
 mud_define_version( 'JJCMD' );
