@@ -53,19 +53,13 @@ class AppModule extends MudModuleApp {
 
     error_log( "command not found: " . implode( ' ', $args ) );
 
-    return null;
+    return new jj_help( $task_args );
 
   }
 
-  public function get_class_name( array $args ) : string{
+  public function get_class_name( array $args ) : string {
 
     return 'jj_' . str_replace( '-', '_', implode( '_', $args ) );
-
-  }
-
-  private function run_cmd( string $class_name, array $args ) {
-
-    error_log( "running command: $class_name: " . implode( ' ', $args ) );
 
   }
 }
