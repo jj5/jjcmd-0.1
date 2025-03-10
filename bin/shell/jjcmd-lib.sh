@@ -2,10 +2,9 @@
 
 jj() {
 
-  local item="$1";
   local command='';
 
-  case "$( jjcmd.sh get-type "$item" )" in
+  case "$( jjcmd.sh get-type "${1:-}" )" in
 
     shell)
 
