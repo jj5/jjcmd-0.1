@@ -1,5 +1,7 @@
 <?php
 
-class AppCommand extends AppTask {
+abstract class AppCommand extends AppTask {
+
+  public function get_type() : string { return 'command'; }
 
 }

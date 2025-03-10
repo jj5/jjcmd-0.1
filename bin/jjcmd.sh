@@ -4,32 +4,9 @@ main() {
 
   set -euo pipefail;
 
-  case "$1" in
+  local script_dir=$( dirname "$( readlink -f "$0" )" );
 
-    get-type)
-
-      case "$2" in
-
-        edit)
-
-          echo shell;;
-
-        *)
-
-          echo script;;
-
-      esac;;
-
-    edit)
-
-      echo "echo 1";
-      echo "echo 2";;
-
-    *)
-
-      echo jjcmd.php "$@";;
-
-  esac;
+  "$script_dir/libexec/jjcmd.php" "$@";
 
 }
 

@@ -3,7 +3,7 @@
 
 function main( $argv ) {
 
-  echo "Hi\n";
+  app()->run( $argv );
 
 }
 

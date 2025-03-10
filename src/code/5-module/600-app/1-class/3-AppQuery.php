@@ -1,5 +1,7 @@
 <?php
 
-class AppQuery extends AppTask {
+abstract class AppQuery extends AppTask {
+
+  public function get_type() : string { return 'query'; }
 
 }

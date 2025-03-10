@@ -3,18 +3,26 @@
 jj() {
 
   local command='';
+  local type="$( jjcmd.sh get-type "${1:-}" )";
 
-  case "$( jjcmd.sh get-type "${1:-}" )" in
+  echo "command..: jjcmd.sh" "$@" >&2;
+  echo "type.....: $type" >&2;
+
+  case "$type" in
 
     shell)
 
-      jjcmd.sh "$@" | while IFS= read -r command; do
+      while IFS= read -r command; do
 
-        echo $command;
+        echo $command >&2;
 
-        $command || return 1;
+        $command;
 
-      done;;
+      done < <( jjcmd.sh "$@" );
+
+      echo "done." >&2;
+
+      ;;
 
     *)
 

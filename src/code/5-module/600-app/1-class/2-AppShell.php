@@ -1,5 +1,7 @@
 <?php
 
-class AppShell extends AppTask {
+abstract class AppShell extends AppTask {
+
+  public function get_type() : string { return 'shell'; }
 
 }
