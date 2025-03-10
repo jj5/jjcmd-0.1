@@ -13,7 +13,9 @@ class AppModule extends MudModuleApp {
 
     $script = array_shift( $args );
 
-    mud_log_trace( "script: $script" );
+    mud_log_trace( '////////////////////////////////////////////////////////////////////////////////////////////////////' );
+    mud_log_trace( 'script..: ', $script );
+    mud_log_trace( 'args....: ', $args );
 
     $task = $this->get_task( $args );
 
