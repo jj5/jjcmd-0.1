@@ -1,12 +1,14 @@
 #!/bin/bash
 
+JJCMD_PATH="$( command -v jjcmd.sh )";
+
 jj() {
 
   local command='';
-  local type="$( jjcmd.sh get-type "$@" )";
+  local type="$( "$JJCMD_PATH" get-type "$@" )";
 
-  echo "command..: jjcmd.sh" "$@" >&2;
-  echo "type.....: $type" >&2;
+  jj_log_trace "command..: $JJCMD_PATH" "$@";
+  jj_log_trace "type.....: $type";
 
   case "$type" in
 
@@ -14,21 +16,29 @@ jj() {
 
       while IFS= read -r command; do
 
-        echo $command >&2;
+        jj_log_trace $command;
 
-        $command;
+        $command >/dev/null 2>&1;
 
-      done < <( jjcmd.sh "$@" );
+      done < <( "$JJCMD_PATH" "$@" );
 
-      echo "done." >&2;
+      jj_log_trace "done.";
 
       ;;
 
     *)
 
-      jjcmd.sh "$@";;
+      "$JJCMD_PATH" "$@";;
 
   esac;
+
+}
+
+jj_log_trace() {
+
+  [ -e /home/jj5/desktop/trace.log ] || return 0;
+
+  echo "jj_log_trace:" "$@" >> /home/jj5/desktop/trace.log;
 
 }
 
@@ -36,7 +46,7 @@ jj_complete() {
 
   local IFS=$'\n';
 
-  COMPREPLY=( $( jjcmd.sh complete "$@" ) );
+  COMPREPLY=( $( "$JJCMD_PATH" complete "$@" ) );
 
 }
 

@@ -9,6 +9,8 @@ function app_host_cli( $argv ) {
 
   try {
 
+    mud_log_init_file( '/home/jj5/desktop/trace.log', MUD_LOG_LEVEL_7_DEBUG );
+
     main( $argv );
 
   }

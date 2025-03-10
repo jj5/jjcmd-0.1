@@ -13,19 +13,19 @@ class AppModule extends MudModuleApp {
 
     $script = array_shift( $args );
 
-    error_log( "script: $script" );
+    mud_log_trace( "script: $script" );
 
     $task = $this->get_task( $args );
 
     if ( $task ) {
 
-      error_log( "running task: " . get_class( $task ) );
+      mud_log_trace( "running task: " . get_class( $task ) );
 
       return $task->run();
 
     }
 
-    error_log( "could not find task: " . implode( ' ', $args ) );
+    mud_log_trace( "could not find task: " . implode( ' ', $args ) );
 
   }
 
@@ -37,7 +37,7 @@ class AppModule extends MudModuleApp {
 
       $class_name = self::get_class_name( $args );
 
-      error_log( "checking class: $class_name" );
+      mud_log_trace( "checking class: $class_name" );
 
       if ( class_exists( $class_name ) ) {
 
@@ -51,7 +51,7 @@ class AppModule extends MudModuleApp {
 
     }
 
-    error_log( "command not found: " . implode( ' ', $args ) );
+    mud_log_trace( "command not found: " . implode( ' ', $args ) );
 
     return new jj_help( $task_args );
 
