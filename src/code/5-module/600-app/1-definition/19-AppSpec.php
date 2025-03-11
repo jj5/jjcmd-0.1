@@ -30,8 +30,13 @@ trait AppSpec {
 
     return $spec;
 
-
   }
+
+  public function get_parameter_map() { return $this->parameter_map; }
+  public function get_parameter_list() { return $this->parameter_list; }
+  public function get_sequential_parameter_list() { return $this->sequential_parameter_list; }
+  public function get_named_parameter_list() { return $this->named_parameter_list; }
+  public function get_flag_parameter_list() { return $this->flag_parameter_list; }
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,12 +56,12 @@ trait AppSpec {
     if ( $is_optional === null ) { $is_optional = $index > 0; }
 
     $parameter = new AppSequentialParameter(
-      $type,
-      $is_optional,
-      $index,
       $name,
       $description,
-      $is_list
+      $type,
+      $is_optional,
+      $is_list,
+      $index,
     );
 
     assert( ! isset( $this->parameter_map[ $name ] ) );
@@ -75,10 +80,10 @@ trait AppSpec {
   ) {
 
     $parameter = new AppNamedParameter(
-      $type,
-      $is_optional,
       $name,
       $description,
+      $type,
+      $is_optional,
     );
 
     assert( ! isset( $this->parameter_map[ $name ] ) );
@@ -91,25 +96,57 @@ trait AppSpec {
 
   protected function add_flag_parameter(
     string $name_true,
+    string $description_true,
     string $name_false,
-    string $description,
-    bool $default_value = false,
+    string $description_false,
     bool $is_optional = true,
   ) {
 
-    $parameter = new AppFlagParameter(
-      $is_optional,
+    $param_true = new AppFlagParameter(
       $name_true,
-      $description,
-      $name_false,
-      $default_value,
+      $description_true,
+      AppParameterType::Boolean,
+      $is_optional,
+      true,
     );
 
     assert( ! isset( $this->parameter_map[ $name_true ] ) );
 
-    $this->parameter_map[ $name_true ] = $parameter;
-    $this->parameter_list[] = $parameter;
-    $this->flag_parameter_list[] = $parameter;
+    $this->parameter_map[ $name_true ] = $param_true;
+    $this->parameter_list[] = $param_true;
+    $this->named_parameter_list[] = $param_true;
+    $this->flag_parameter_list[] = $param_true;
+
+    $param_false = new AppFlagParameter(
+      $name_false,
+      $description_false,
+      AppParameterType::Boolean,
+      $is_optional,
+      false,
+    );
+
+    assert( ! isset( $this->parameter_map[ $name_false ] ) );
+
+    $this->parameter_map[ $name_false ] = $param_false;
+    $this->parameter_list[] = $param_false;
+    $this->named_parameter_list[] = $param_false;
+    $this->flag_parameter_list[] = $param_false;
+
+  }
+
+  public function get_optional_parameter_list() {
+
+    return array_filter( $this->parameter_list, function( $parameter ) {
+      return $parameter->is_optional();
+    });
+
+  }
+
+  public function get_required_parameter_list() {
+
+    return array_filter( $this->parameter_list, function( $parameter ) {
+      return ! $parameter->is_optional();
+    });
 
   }
 }

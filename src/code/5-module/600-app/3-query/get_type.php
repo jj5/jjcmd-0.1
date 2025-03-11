@@ -13,6 +13,12 @@ class jj_get_type extends AppQuery {
 
   }
 
+  protected function define_description() : string {
+
+    return self::class;
+
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
@@ -21,6 +27,14 @@ class jj_get_type extends AppQuery {
   public function __construct() {
 
     parent::__construct();
+
+    $this->add_sequential_parameter(
+      'TASK',
+      'The task to query.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = true,
+    );
 
   }
 

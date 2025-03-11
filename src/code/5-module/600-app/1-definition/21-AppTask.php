@@ -19,7 +19,10 @@ abstract class AppTask {
   protected ReflectionClass $reflection_class;
   protected string $name;
   protected string $description;
+
   protected array $args;
+  protected array $sequential_arg_map;
+  protected array $named_arg_map;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +35,7 @@ abstract class AppTask {
     $this->category = $this->define_category();
     $this->reflection_class = new ReflectionClass( $this );
     $this->name = $this->define_name();
-    $this->description = $this->wordwrap( $this->define_description() );
+    $this->description = $this->define_description();
     $this->args = [];
 
   }
@@ -48,8 +51,7 @@ abstract class AppTask {
 
   protected abstract function define_category() : AppTaskCategory;
 
-  // 2025-03-12 jj5 - TODO: make this abstract...
-  protected function define_description() : string { return ''; }
+  protected abstract function define_description() : string;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,9 +76,112 @@ abstract class AppTask {
 
   }
 
+  public function get_description() : string {
+
+    return $this->description;
+
+  }
+
   public function set_args( array $args ) {
 
     $this->args = $args;
+
+    $sequential_arg_map = [];
+    $named_arg_map = [];
+
+    $parameter_map = $this->get_parameter_map();
+    $sequential_parameter_list = $this->get_sequential_parameter_list();
+    $sequential_parameter = array_shift( $sequential_parameter_list );
+
+    while ( null !== $arg = array_shift( $args ) ) {
+
+      if ( $arg === '--' ) { break; }
+
+      if ( array_key_exists( $arg, $parameter_map ) ) {
+
+        $parameter = $parameter_map[ $arg ];
+
+        assert( ! $parameter->is_sequential() );
+
+        if ( $parameter->is_flag() ) {
+
+          $named_arg_map[ $arg ] = $parameter->get_value();
+
+        }
+        else {
+
+          $value = array_shift( $args );
+
+          $named_arg_map[ $arg ] = $parameter->parse( $value );
+
+        }
+      }
+      else {
+
+        var_dump( $arg );
+
+        self::parse_sequential( $arg, $sequential_arg_map, $sequential_parameter, $sequential_parameter_list );
+
+      }
+    }
+
+    while ( null !== $arg = array_shift( $args ) ) {
+
+      var_dump( $arg );
+
+      self::parse_sequential( $arg, $sequential_arg_map, $sequential_parameter, $sequential_parameter_list );
+
+    }
+
+    $this->sequential_arg_map = $sequential_arg_map;
+    $this->named_arg_map = $named_arg_map;
+
+  }
+
+  protected static function parse_sequential(
+    $arg,
+    &$sequential_arg_map,
+    &$sequential_parameter,
+    &$sequential_parameter_list,
+  ) {
+
+    if ( $sequential_parameter === null ) {
+
+      throw new Exception( "Too many arguments in '" . get_called_class() . "'." );
+
+    }
+
+    $arg_value = $sequential_parameter->parse( $arg );
+
+    if ( $sequential_parameter->is_list() ) {
+
+      $sequential_arg_map[ $sequential_parameter->get_name() ][] = $arg_value;
+
+    }
+    else {
+
+      $sequential_arg_map[ $sequential_parameter->get_name() ] = $arg_value;
+
+      $sequential_parameter = array_shift( $sequential_parameter_list );
+
+    }
+  }
+
+  public function get_arg( $name ) {
+
+    if ( array_key_exists( $name, $this->named_arg_map ) ) {
+
+      return $this->named_arg_map[ $name ];
+
+    }
+
+    if ( array_key_exists( $name, $this->sequential_arg_map ) ) {
+
+      return $this->sequential_arg_map[ $name ];
+
+    }
+
+    return null;
 
   }
 
@@ -86,6 +191,44 @@ abstract class AppTask {
 
   }
 
+  public function print_help() {
+
+    $this->print_usage();
+
+    echo "\n";
+
+    echo $this->get_description() . "\n";
+
+  }
+
+  public function print_usage() {
+
+    echo "Usage: jj " . $this->get_name() . " " . $this->get_usage() . "\n";
+
+  }
+
+  public function get_usage() : string {
+
+    $opt_params = $this->get_optional_parameter_list();
+    $req_params = $this->get_required_parameter_list();
+
+    $result = [];
+
+    if ( count( $opt_params ) > 0 ) {
+
+      $result[] = '[OPTION]...';
+
+    }
+
+    foreach ( $req_params as $param ) {
+
+      $result[] = $param->get_usage();
+
+    }
+
+    return implode( ' ', $result );
+
+  }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - protected functions...

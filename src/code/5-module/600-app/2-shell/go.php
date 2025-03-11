@@ -13,6 +13,12 @@ class jj_go extends AppShell {
 
   }
 
+  protected function define_description() : string {
+
+    return self::class;
+
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...

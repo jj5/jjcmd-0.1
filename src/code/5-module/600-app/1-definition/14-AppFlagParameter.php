@@ -7,8 +7,7 @@ class AppFlagParameter extends AppNamedParameter {
   // 2025-03-12 jj5 - fields...
   //
 
-  protected string $name_false;
-  protected bool $default_value;
+  protected bool $value;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,17 +15,16 @@ class AppFlagParameter extends AppNamedParameter {
   //
 
   public function __construct(
-    bool $is_optional,
-    string $name_true,
+    string $name,
     string $description,
-    string $name_false,
-    bool $default_value = false,
+    AppParameterType $type,
+    bool $is_optional,
+    bool $value,
   ) {
 
-    parent::__construct( AppParameterType::Boolean, $is_optional, $name_true, $description );
+    parent::__construct( $name, $description, $type, $is_optional );
 
-    $this->name_false = $name_false;
-    $this->default_value = $default_value;
+    $this->value = $value;
 
   }
 
@@ -35,11 +33,8 @@ class AppFlagParameter extends AppNamedParameter {
   // 2025-03-12 jj5 - public functions...
   //
 
-  public function get_name_true() : string {
-    return $this->get_name();
-  }
+  public function is_sequential() : bool { return false; }
+  public function is_named() : bool { return true; }
+  public function is_flag() : bool { return true; }
 
-  public function get_name_false() : string {
-    return $this->name_false;
-  }
 }

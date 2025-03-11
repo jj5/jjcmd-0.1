@@ -23,6 +23,8 @@ require_once __DIR__ . '/1-definition/22-AppShell.php';
 require_once __DIR__ . '/1-definition/23-AppQuery.php';
 require_once __DIR__ . '/1-definition/24-AppOrder.php';
 
+require_once __DIR__ . '/1-definition/31-AppItem.php';
+
 require_once __DIR__ . '/1-definition/99-AppModule.php';
 
 mud_load_deep_breadth_first( __DIR__ . '/2-shell' );

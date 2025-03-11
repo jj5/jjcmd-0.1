@@ -13,6 +13,12 @@ class jj_help extends AppQuery {
 
   }
 
+  protected function define_description() : string {
+
+    return self::class;
+
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
@@ -22,6 +28,14 @@ class jj_help extends AppQuery {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'TASK',
+      'The task to query.',
+      AppParameterType::String,
+      $is_optional = true,
+      $is_list = true,
+    );
+
   }
 
 
@@ -30,6 +44,21 @@ class jj_help extends AppQuery {
   //
 
   public function run() {
+
+    $args = $this->get_args();
+
+    if ( count( $args ) > 0 ) {
+
+      $this->print_help_for_task( $args[ 0 ] );
+
+    } else {
+
+      $this->print_help();
+
+    }
+  }
+
+  public function print_help() {
 
     $category_to_task_list = app()->get_category_to_task_list();
 
@@ -46,5 +75,13 @@ class jj_help extends AppQuery {
       echo "\n";
 
     }
+  }
+
+  public function print_help_for_task( string $task_name ) {
+
+    $task = app_find_task( [ $task_name ] );
+
+    $task->print_help();
+
   }
 }
