@@ -1,6 +1,6 @@
 <?php
 
-class jj_help extends AppQuery {
+class jj_path extends AppQuery {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@ class jj_help extends AppQuery {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Help;
+    return AppTaskCategory::Search;
 
   }
 
@@ -31,20 +31,6 @@ class jj_help extends AppQuery {
 
   public function run() {
 
-    $category_to_task_list = app()->get_category_to_task_list();
 
-    foreach ( $category_to_task_list as $category => $task_list ) {
-
-      echo "$category:\n";
-
-      foreach ( $task_list as $task ) {
-
-        echo "* jj " . $task->get_name() . "\n";
-
-      }
-
-      echo "\n";
-
-    }
   }
 }

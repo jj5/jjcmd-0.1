@@ -2,11 +2,38 @@
 
 class jj_get_type extends AppQuery {
 
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-12 jj5 - definitions...
+  //
+
+  protected function define_category() : AppTaskCategory {
+
+    return AppTaskCategory::Internal;
+
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-12 jj5 - constructor...
+  //
+
+  public function __construct() {
+
+    parent::__construct();
+
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-12 jj5 - public functions...
+  //
+
   public function run() {
 
-    $task = app_get_task( $this->args );
+    $task = app_find_task( $this->args );
 
-    echo $task->get_type() . "\n";
+    echo $task->get_type()->value . "\n";
 
   }
 }

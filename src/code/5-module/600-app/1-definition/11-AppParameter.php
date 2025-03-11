@@ -1,26 +1,24 @@
 <?php
 
-class jj_complete extends AppQuery {
+class AppParameter {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-12 jj5 - definitions...
+  // 2025-03-12 jj5 - fields...
   //
 
-  protected function define_category() : AppTaskCategory {
-
-    return AppTaskCategory::Internal;
-
-  }
+  protected AppParameterType $type;
+  protected bool $is_optional;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
   //
 
-  public function __construct() {
+  public function __construct( AppParameterType $type, bool $is_optional = false ) {
 
-    parent::__construct();
+    $this->type = $type;
+    $this->is_optional = $is_optional;
 
   }
 
@@ -29,11 +27,11 @@ class jj_complete extends AppQuery {
   // 2025-03-12 jj5 - public functions...
   //
 
-  public function run() {
+  public function get_type() : AppParameterType {
+    return $this->type;
+  }
 
-    mud_log_trace( "jj_complete", $this->args );
-
-    echo "option-1\noption-2\n";
-
+  public function is_optional() : bool {
+    return $this->is_optional;
   }
 }
