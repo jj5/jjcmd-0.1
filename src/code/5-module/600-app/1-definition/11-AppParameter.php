@@ -91,4 +91,10 @@ abstract class AppParameter {
     return $result;
 
   }
+
+  public function print_help() {
+
+    echo $this->get_name() . ' - ' . $this->get_description() . "\n";
+
+  }
 }

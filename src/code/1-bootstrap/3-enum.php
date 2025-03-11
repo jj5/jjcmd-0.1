@@ -26,6 +26,7 @@ enum AppTaskType : string {
 enum AppTaskCategory : string {
   case Internal = 'Internal';
   case Search = 'Search';
+  case Web = 'Web';
   case Info = 'Info';
   case Tools = 'Tools';
   case Shell = 'Shell';

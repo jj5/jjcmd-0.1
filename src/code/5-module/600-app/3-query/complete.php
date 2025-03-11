@@ -15,7 +15,7 @@ class jj_complete extends AppQuery {
 
   protected function define_description() : string {
 
-    return self::class;
+    return "This is an internal task for use with BASH completion.";
 
   }
 

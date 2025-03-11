@@ -118,16 +118,12 @@ abstract class AppTask {
       }
       else {
 
-        var_dump( $arg );
-
         self::parse_sequential( $arg, $sequential_arg_map, $sequential_parameter, $sequential_parameter_list );
 
       }
     }
 
     while ( null !== $arg = array_shift( $args ) ) {
-
-      var_dump( $arg );
 
       self::parse_sequential( $arg, $sequential_arg_map, $sequential_parameter, $sequential_parameter_list );
 
@@ -147,7 +143,7 @@ abstract class AppTask {
 
     if ( $sequential_parameter === null ) {
 
-      throw new Exception( "Too many arguments in '" . get_called_class() . "'." );
+      mud_fail( "too many arguments.", [ 'class' => get_called_class() ] );
 
     }
 
@@ -199,6 +195,17 @@ abstract class AppTask {
 
     echo $this->get_description() . "\n";
 
+    if ( count( $this->get_parameter_list() ) > 0 ) {
+
+      echo "\nParameters:\n\n";
+
+      foreach ( $this->get_parameter_list() as $param ) {
+
+        echo $param->print_help();
+
+      }
+    }
+
   }
 
   public function print_usage() {
@@ -209,8 +216,22 @@ abstract class AppTask {
 
   public function get_usage() : string {
 
-    $opt_params = $this->get_optional_parameter_list();
-    $req_params = $this->get_required_parameter_list();
+    $opt_params = [];
+    $doc_params = [];
+
+    foreach ( $this->get_parameter_list() as $param ) {
+
+      if ( $param->is_optional() && $param->is_named() ) {
+
+        $opt_params[] = $param;
+
+      }
+      else {
+
+        $doc_params[] = $param;
+
+      }
+    }
 
     $result = [];
 
@@ -220,7 +241,7 @@ abstract class AppTask {
 
     }
 
-    foreach ( $req_params as $param ) {
+    foreach ( $doc_params as $param ) {
 
       $result[] = $param->get_usage();
 

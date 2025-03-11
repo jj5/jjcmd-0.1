@@ -1,6 +1,6 @@
 <?php
 
-class jj_find extends AppQuery {
+class jj_find extends AppSearch {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,11 +30,6 @@ class jj_find extends AppQuery {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The search specification.',
-    );
-
   }
 
 
@@ -60,9 +55,9 @@ class jj_find extends AppQuery {
       //
       if ( $key === $spec ) {
 
-        echo $map[ $key ][ 0 ]->path;
+        mud_stdout( $map[ $key ][ 0 ]->path );
 
-        fwrite( STDERR, "\n" );
+        mud_stderr( "\n" );
 
         return;
 
@@ -74,9 +69,9 @@ class jj_find extends AppQuery {
 
     if ( count( $match ) === 1 ) {
 
-      echo $match[ 0 ]->path;
+      mud_stdout( $match[ 0 ]->path );
 
-      fwrite( STDERR, "\n" );
+      mud_stderr( "\n" );
 
       return;
 
@@ -84,101 +79,23 @@ class jj_find extends AppQuery {
 
     if ( count( $match ) === 0 ) {
 
-      fwrite( STDERR, "No items found for spec '$spec'.\n" );
+      mud_stderr( "No items found for spec '$spec'.\n" );
 
     }
 
     foreach ( $match as $item ) {
 
-      fwrite( STDERR, $item->path . "\n" );
+      mud_stderr( $item->path . "\n" );
 
     }
 
     // 2024-11-05 jj5 - print the last match...
     //
-    echo $item->path;
+    mud_stdout( $item->path );
 
-    fwrite( STDERR, "\n" );
+    mud_stderr( "\n" );
 
     exit( 1 );
-
-  }
-
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-12 jj5 - public functions...
-  //
-
-  protected function get_files( &$list, &$map ) {
-
-    $dir = getcwd();
-
-    mud_chdir( '/home/jj5' );
-
-    try {
-
-      $this->collect( 'repo', $list, $map, function( $name ) {
-
-        return is_dir( '.svn' ) || is_dir( '.git' );
-
-      });
-
-      $this->collect( 'desktop', $list, $map, function( $name ) {
-
-        return is_dir( '.svn' ) || is_dir( '.git' );
-
-      });
-
-    }
-    finally {
-
-      mud_chdir( $dir );
-
-    }
-  }
-
-  protected function collect( $path, &$list, &$map, $match ) {
-
-    static $depth = 0;
-
-    if ( is_link( $path ) ) { return; }
-
-    if ( ! is_dir( $path ) || $path === '.' || $path === '..' ) { return; }
-
-    //echo str_repeat( '  ', $depth ) . "$path:\n";
-
-    mud_chdir( $path );
-
-    $depth++;
-
-    if ( $match( $path ) ) {
-
-      $item = new AppItem( $path, getcwd() );
-
-      $list[] = $item;
-      $map[ $path ][] = $item;
-
-    }
-    else {
-
-      foreach ( scandir( '.' ) as $file ) {
-
-        $this->collect( $file, $list, $map, $match );
-
-      }
-    }
-
-    mud_chdir( '..' );
-
-    $depth--;
-
-  }
-
-  protected function strpos( string $haystack, string $needle ) {
-
-    if ( $needle === '' ) { return 0; }
-
-    return strpos( $haystack, $needle );
 
   }
 }

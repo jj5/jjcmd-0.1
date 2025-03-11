@@ -1,6 +1,6 @@
 <?php
 
-class jj_path extends AppQuery {
+class jj_path extends AppSearch {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ class jj_path extends AppQuery {
 
   protected function define_description() : string {
 
-    return self::class;
+    return "Searches for svn/git repositories which match the spec and prints out their path.";
 
   }
 
@@ -37,6 +37,29 @@ class jj_path extends AppQuery {
 
   public function run() {
 
+    $spec = $this->get_arg( 'SPEC' );
+
+    $this->get_files( $list, $map );
+
+    $keys = array_keys( $map );
+
+    $match = [];
+
+    foreach ( $keys as $key ) {
+
+      if ( $this->strpos( $key, $spec ) !== 0 ) { continue; }
+
+      $match = array_merge( $match, $map[ $key ] );
+
+    }
+
+    foreach ( $match as $item ) {
+
+      mud_stdout( $item->path . "\n" );
+
+    }
+
+    $this->write_info( $list, $match );
 
   }
 }

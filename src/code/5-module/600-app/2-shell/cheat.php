@@ -1,6 +1,6 @@
 <?php
 
-class jj_get_type extends AppQuery {
+class jj_cheat extends AppShell {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,14 +9,13 @@ class jj_get_type extends AppQuery {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Internal;
+    return AppTaskCategory::Web;
 
   }
 
   protected function define_description() : string {
 
-    return "This is an internal task to facilitate shell integration. Tasks of type 'shell' are able to manipulate " .
-      "the shell environment in some way, such as by changing the current working directory or opening an editor.";
+    return "Finds cheatsheets for SPEC from https://cheat.sh/ (web site).";
 
   }
 
@@ -30,11 +29,11 @@ class jj_get_type extends AppQuery {
     parent::__construct();
 
     $this->add_sequential_parameter(
-      'TASK',
-      'The task to query.',
+      'ARG',
+      'The query.',
       AppParameterType::String,
       $is_optional = false,
-      $is_list = true,
+      $is_list = false,
     );
 
   }
@@ -46,9 +45,9 @@ class jj_get_type extends AppQuery {
 
   public function run() {
 
-    $task = app_find_task( $this->args );
+    $query = addslashes( 'https://cheat.sh/' . $this->get_arg( 'ARG' ) );
 
-    echo $task->get_type()->value . "\n";
+    mud_stdout( 'curl ' . $query . "\n" );
 
   }
 }

@@ -15,7 +15,7 @@ class jj_help extends AppQuery {
 
   protected function define_description() : string {
 
-    return self::class;
+    return "Print help for tasks. Call without task name to print global help.";
 
   }
 
@@ -53,12 +53,12 @@ class jj_help extends AppQuery {
 
     } else {
 
-      $this->print_help();
+      $this->print_help_global();
 
     }
   }
 
-  public function print_help() {
+  public function print_help_global() {
 
     $category_to_task_list = app()->get_category_to_task_list();
 
