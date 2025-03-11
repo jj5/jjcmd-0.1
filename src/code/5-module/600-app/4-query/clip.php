@@ -1,21 +1,21 @@
 <?php
 
-class jj_edit extends AppShell {
+class jj_clip extends AppQuery {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - definitions...
   //
 
-  public function define_category() : AppTaskCategory {
+  protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Shell;
+    return AppTaskCategory::Info;
 
   }
 
   protected function define_description() : string {
 
-    return self::class;
+    return "Copies ARGS to clipboard.";
 
   }
 
@@ -28,6 +28,14 @@ class jj_edit extends AppShell {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'TEXT',
+      'The text to copy.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = true,
+    );
+
   }
 
 
@@ -35,9 +43,17 @@ class jj_edit extends AppShell {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function process() {
+
+    $this->capture();
+
+  }
+
   public function run() {
 
-    echo "pushd /home/jj5/repo/svn/jprepo/plog-0.1/src/code\n";
+    $text = implode( ' ', $this->get_arg( 'TEXT' ) );
+
+    mud_stdout( "$text\n" );
 
   }
 }

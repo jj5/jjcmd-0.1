@@ -37,4 +37,7 @@ class AppFlagParameter extends AppNamedParameter {
   public function is_named() : bool { return true; }
   public function is_flag() : bool { return true; }
 
+  public function get_value() : bool {
+    return $this->value;
+  }
 }

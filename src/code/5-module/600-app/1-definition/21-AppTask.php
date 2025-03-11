@@ -58,6 +58,12 @@ abstract class AppTask {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function process() {
+
+    $this->run();
+
+  }
+
   public function get_type() : AppTaskType {
 
     return $this->type;
@@ -163,6 +169,12 @@ abstract class AppTask {
     }
   }
 
+  protected function set_arg( $name, $value ) {
+
+    $this->named_arg_map[ $name ] = $value;
+
+  }
+
   public function get_arg( $name ) {
 
     if ( array_key_exists( $name, $this->named_arg_map ) ) {
@@ -189,23 +201,50 @@ abstract class AppTask {
 
   public function print_help() {
 
+    $opt_list = [];
+    $req_list = [];
+
+    foreach ( $this->get_parameter_list() as $param ) {
+
+      if ( $param->is_optional() ) {
+
+        $opt_list[] = $param;
+
+      }
+      else {
+
+        $req_list[] = $param;
+
+      }
+    }
+
     $this->print_usage();
 
     echo "\n";
 
     echo $this->get_description() . "\n";
 
-    if ( count( $this->get_parameter_list() ) > 0 ) {
+    if ( count( $req_list ) > 0 ) {
 
-      echo "\nParameters:\n\n";
+      echo "\nParameters:\n";
 
-      foreach ( $this->get_parameter_list() as $param ) {
+      foreach ( $req_list as $param ) {
 
         echo $param->print_help();
 
       }
     }
 
+    if ( count( $opt_list ) > 0 ) {
+
+      echo "\nOptions:\n";
+
+      foreach ( $opt_list as $param ) {
+
+        echo $param->print_help();
+
+      }
+    }
   }
 
   public function print_usage() {

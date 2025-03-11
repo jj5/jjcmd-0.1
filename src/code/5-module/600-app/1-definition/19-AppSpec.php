@@ -95,42 +95,24 @@ trait AppSpec {
   }
 
   protected function add_flag_parameter(
-    string $name_true,
-    string $description_true,
-    string $name_false,
-    string $description_false,
-    bool $is_optional = true,
+    string $name,
+    string $description,
   ) {
 
-    $param_true = new AppFlagParameter(
-      $name_true,
-      $description_true,
+    $param = new AppFlagParameter(
+      $name,
+      $description,
       AppParameterType::Boolean,
-      $is_optional,
+      $is_optional = true,
       true,
     );
 
-    assert( ! isset( $this->parameter_map[ $name_true ] ) );
+    assert( ! isset( $this->parameter_map[ $name ] ) );
 
-    $this->parameter_map[ $name_true ] = $param_true;
-    $this->parameter_list[] = $param_true;
-    $this->named_parameter_list[] = $param_true;
-    $this->flag_parameter_list[] = $param_true;
-
-    $param_false = new AppFlagParameter(
-      $name_false,
-      $description_false,
-      AppParameterType::Boolean,
-      $is_optional,
-      false,
-    );
-
-    assert( ! isset( $this->parameter_map[ $name_false ] ) );
-
-    $this->parameter_map[ $name_false ] = $param_false;
-    $this->parameter_list[] = $param_false;
-    $this->named_parameter_list[] = $param_false;
-    $this->flag_parameter_list[] = $param_false;
+    $this->parameter_map[ $name ] = $param;
+    $this->parameter_list[] = $param;
+    $this->named_parameter_list[] = $param;
+    $this->flag_parameter_list[] = $param;
 
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-class jj_complete extends AppQuery {
+class jj_search extends AppShell {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_complete extends AppQuery {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Internal;
+    return AppTaskCategory::Web;
 
   }
 
   protected function define_description() : string {
 
-    return "This is an internal task for use with BASH completion.";
+    return "Searches the web for SPEC.";
 
   }
 
@@ -28,6 +28,14 @@ class jj_complete extends AppQuery {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The query.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = true,
+    );
+
   }
 
 
@@ -37,9 +45,11 @@ class jj_complete extends AppQuery {
 
   public function run() {
 
-    mud_log_trace( "jj_complete", $this->args );
+    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
 
-    echo "option-1\noption-2\n";
+    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=web&q=' . urlencode( $spec ) );
+
+    mud_stdout( 'firefox ' . $query . "\n" );
 
   }
 }

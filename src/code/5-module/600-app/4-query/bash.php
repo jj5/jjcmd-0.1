@@ -1,6 +1,6 @@
 <?php
 
-class jj_cheat extends AppShell {
+class jj_bash extends AppLanguage {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_cheat extends AppShell {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Web;
+    return AppTaskCategory::Search;
 
   }
 
   protected function define_description() : string {
 
-    return "Finds cheatsheets for SPEC from https://cheat.sh/ (web site).";
+    return "Searches for svn/git repositories which match the spec and prints out their path.";
 
   }
 
@@ -28,14 +28,6 @@ class jj_cheat extends AppShell {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'ARG',
-      'The query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = false,
-    );
-
   }
 
 
@@ -45,9 +37,29 @@ class jj_cheat extends AppShell {
 
   public function run() {
 
-    $query = addslashes( 'https://cheat.sh/' . $this->get_arg( 'ARG' ) );
+    $spec = $this->get_arg( 'SPEC' );
 
-    mud_stdout( 'curl ' . $query . "\n" );
+    $this->get_files( $list, $map );
+
+    $keys = array_keys( $map );
+
+    $match = [];
+
+    foreach ( $keys as $key ) {
+
+      if ( $this->strpos( $key, $spec ) !== 0 ) { continue; }
+
+      $match = array_merge( $match, $map[ $key ] );
+
+    }
+
+    foreach ( $match as $item ) {
+
+      mud_stdout( $item->path . "\n" );
+
+    }
+
+    $this->write_info( $list, $match );
 
   }
 }

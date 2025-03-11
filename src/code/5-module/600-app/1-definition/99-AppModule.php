@@ -14,6 +14,7 @@ class AppModule extends MudModuleApp {
 
   protected $class_to_task = [];
   protected $category_to_task_list = [];
+  protected $internal_task_list = [];
   protected $shell_task_list = [];
   protected $query_task_list = [];
   protected $order_task_list = [];
@@ -40,7 +41,7 @@ class AppModule extends MudModuleApp {
 
       mud_log_trace( "running task: " . get_class( $task ) );
 
-      return $task->run();
+      return $task->process();
 
     }
 
@@ -128,6 +129,9 @@ class AppModule extends MudModuleApp {
 
       if ( strpos( $class, 'jj_' ) !== 0 ) {
         // 2025-03-12 jj5 - skip this class...
+      }
+      else if ( get_parent_class( $class ) === AppInternal::class ) {
+        $this->register_class( $class, $this->internal_task_list );
       }
       else if ( get_parent_class( $class ) === AppShell::class ) {
         $this->register_class( $class, $this->shell_task_list );

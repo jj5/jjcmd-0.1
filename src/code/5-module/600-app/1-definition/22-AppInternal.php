@@ -1,6 +1,6 @@
 <?php
 
-abstract class AppQuery extends AppTask {
+abstract class AppInternal extends AppTask {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,6 @@ abstract class AppQuery extends AppTask {
   // 2025-03-12 jj5 - protected functions...
   //
 
-  protected function define_type() : AppTaskType { return AppTaskType::Query; }
+  protected function define_type() : AppTaskType { return AppTaskType::Internal; }
 
 }

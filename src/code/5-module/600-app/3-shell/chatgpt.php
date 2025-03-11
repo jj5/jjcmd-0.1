@@ -1,6 +1,6 @@
 <?php
 
-class jj_get_type extends AppQuery {
+class jj_chatgpt extends AppShell {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,14 +9,13 @@ class jj_get_type extends AppQuery {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Internal;
+    return AppTaskCategory::Web;
 
   }
 
   protected function define_description() : string {
 
-    return "This is an internal task to facilitate shell integration. Tasks of type 'shell' are able to manipulate " .
-      "the shell environment in some way, such as by changing the current working directory or opening an editor.";
+    return "Opens ChatGPT in Chromium.";
 
   }
 
@@ -29,14 +28,6 @@ class jj_get_type extends AppQuery {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'TASK',
-      'The task to query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
-
   }
 
 
@@ -46,9 +37,7 @@ class jj_get_type extends AppQuery {
 
   public function run() {
 
-    $task = app_find_task( $this->args );
-
-    echo $task->get_type()->value . "\n";
+    mud_stdout( "chromium https://chatgpt.com/\n" );
 
   }
 }

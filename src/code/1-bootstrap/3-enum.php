@@ -18,6 +18,7 @@ require_once __DIR__ . '/2-constant.php';
 
 
 enum AppTaskType : string {
+  case Internal = 'internal';
   case Shell = 'shell';
   case Query = 'query';
   case Order = 'order';
