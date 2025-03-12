@@ -18,7 +18,7 @@ jj() {
 
         jj_log_trace $command;
 
-        $command < /dev/tty;
+        $command < /dev/tty || return 1;
 
       done < <( "$JJCMD_PATH" "$@" );
 

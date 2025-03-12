@@ -16,6 +16,7 @@ require_once __DIR__ . '/1-definition/11-AppParameter.php';
 require_once __DIR__ . '/1-definition/12-AppSequentialParameter.php';
 require_once __DIR__ . '/1-definition/13-AppNamedParameter.php';
 require_once __DIR__ . '/1-definition/14-AppFlagParameter.php';
+require_once __DIR__ . '/1-definition/18-AppFile.php';
 require_once __DIR__ . '/1-definition/19-AppSpec.php';
 
 require_once __DIR__ . '/1-definition/21-AppTask.php';
