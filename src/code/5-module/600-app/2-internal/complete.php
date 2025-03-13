@@ -73,6 +73,10 @@ class jj_complete extends AppInternal {
 
         return $this->report( $list, $arg2 );
 
+      case '--file' :
+
+        return $this->complete_file( $arg2 );
+
     }
 
     $class = app()->get_class_name( [ $arg3 ] );
@@ -111,6 +115,52 @@ class jj_complete extends AppInternal {
       // 2025-03-14 jj5 - TODO...
 
     }
+  }
+
+  protected function complete_file( $arg2 ) {
+
+    $search = '.';
+
+    mud_log_trace( 'arg2', $arg2 );
+
+    if ( is_dir( $arg2 ) ) {
+
+      $search = rtrim( $arg2, '/' );
+
+    }
+    else {
+
+      $search = dirname( $arg2 );
+
+    }
+
+    $list = [];
+
+    foreach ( scandir( $search ) as $item ) {
+
+      if ( $item === '.' ) { continue; }
+      if ( $item === '..' ) { continue; }
+
+      $list[] = $item;
+
+    }
+
+    if ( $search === '.' ) {
+
+      $result = $list;
+
+    }
+    else {
+
+      foreach ( $list as $item ) {
+
+        $result[] = "$search/$item";
+
+      }
+    }
+
+    return $this->report( $result, $arg2 );
+
   }
 
   protected function report( $list, $arg2 ) {

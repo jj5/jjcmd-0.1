@@ -111,7 +111,6 @@ require_once __DIR__ . '/5-module.php';
     'Copy the output to the clipboard.',
   );
 
-
   // 2025-03-13 jj5 - here we define the main tasks...
 
   app()->add_task( jj_complete::class );
