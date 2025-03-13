@@ -39,7 +39,8 @@ require_once __DIR__ . '/1-definition/99-AppModule.php';
 mud_load_deep_breadth_first( __DIR__ . '/2-internal' );
 mud_load_deep_breadth_first( __DIR__ . '/3-shell' );
 mud_load_deep_breadth_first( __DIR__ . '/4-query' );
-mud_load_deep_breadth_first( __DIR__ . '/5-order' );
+mud_load_deep_breadth_first( __DIR__ . '/5-language' );
+mud_load_deep_breadth_first( __DIR__ . '/6-order' );
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

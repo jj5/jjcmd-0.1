@@ -14,10 +14,6 @@ class AppModule extends MudModuleApp {
 
   protected $class_to_task = [];
   protected $category_to_task_list = [];
-  protected $internal_task_list = [];
-  protected $shell_task_list = [];
-  protected $query_task_list = [];
-  protected $order_task_list = [];
   protected $task_list = [];
 
 
@@ -116,6 +112,24 @@ class AppModule extends MudModuleApp {
 
   }
 
+  public function get_task( $class ) {
+
+    echo "getting class $class\n";
+
+    if ( ! array_key_exists( $class, $this->class_to_task ) ) {
+
+      $task = new $class();
+
+      $this->class_to_task[ $class ] = $task;
+      $this->task_list[] = $task;
+      $this->category_to_task_list[ $task->get_category()->value ][] = $task;
+
+    }
+
+    return $this->class_to_task[ $class ];
+
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - private functions...
@@ -127,40 +141,11 @@ class AppModule extends MudModuleApp {
 
     foreach ( get_declared_classes() as $class ) {
 
-      if ( strpos( $class, 'jj_' ) !== 0 ) {
-        // 2025-03-12 jj5 - skip this class...
-      }
-      else if ( get_parent_class( $class ) === AppInternal::class ) {
-        $this->register_class( $class, $this->internal_task_list );
-      }
-      else if ( get_parent_class( $class ) === AppShell::class ) {
-        $this->register_class( $class, $this->shell_task_list );
-      }
-      else if ( get_parent_class( $class ) === AppQuery::class ) {
-        $this->register_class( $class, $this->query_task_list );
-      }
-      else if ( get_parent_class( $class ) === AppOrder::class ) {
-        $this->register_class( $class, $this->order_task_list );
-      }
-      else {
-        mud_log_4_warning( 'unknown class', $class );
+      if ( strpos( $class, 'jj_' ) === 0 ) {
+
+        $this->get_task( $class );
+
       }
     }
-  }
-
-  private function register_class( $class, &$list ) {
-
-    if ( ! array_key_exists( $class, $this->class_to_task ) ) {
-
-      $this->class_to_task[ $class ] = new $class();
-
-    }
-
-    $task = $this->class_to_task[ $class ];
-
-    $list[] = $task;
-    $this->task_list[] = $task;
-    $this->category_to_task_list[ $task->get_category()->value ][] = $task;
-
   }
 }

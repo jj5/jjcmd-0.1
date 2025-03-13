@@ -49,7 +49,7 @@ class jj_help extends AppQuery {
 
     if ( count( $args ) > 0 ) {
 
-      $this->print_help_for_task( $args[ 0 ] );
+      $this->print_help_for_task( $args );
 
     } else {
 
@@ -77,9 +77,9 @@ class jj_help extends AppQuery {
     }
   }
 
-  public function print_help_for_task( string $task_name ) {
+  public function print_help_for_task( array $args ) {
 
-    $task = app_find_task( [ $task_name ] );
+    $task = app_find_task( $args );
 
     $task->print_help();
 

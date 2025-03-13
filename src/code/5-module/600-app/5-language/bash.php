@@ -9,13 +9,13 @@ class jj_bash extends AppLanguage {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Search;
+    return AppTaskCategory::Languages;
 
   }
 
   protected function define_description() : string {
 
-    return "Searches for svn/git repositories which match the spec and prints out their path.";
+    return "Generates BASH code.";
 
   }
 
@@ -28,6 +28,14 @@ class jj_bash extends AppLanguage {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The name of the item you want.',
+      AppParameterType::String,
+      $is_optional = true,
+      $is_list = false,
+    );
+
   }
 
 
@@ -39,27 +47,38 @@ class jj_bash extends AppLanguage {
 
     $spec = $this->get_arg( 'SPEC' );
 
-    $this->get_files( $list, $map );
+    $class = get_called_class() . '_' . $spec;
 
-    $keys = array_keys( $map );
+    if ( class_exists( $class ) ) {
 
-    $match = [];
+      $subtask = new $class();
 
-    foreach ( $keys as $key ) {
-
-      if ( $this->strpos( $key, $spec ) !== 0 ) { continue; }
-
-      $match = array_merge( $match, $map[ $key ] );
+      $subtask->run();
 
     }
+    else {
 
-    foreach ( $match as $item ) {
-
-      mud_stdout( $item->path . "\n" );
+      $this->print_help();
 
     }
+  }
 
-    $this->write_info( $list, $match );
+  public function print_help() {
 
+    $subtask_list = $this->get_subtasks();
+
+    if ( $subtask_list ) {
+
+      foreach ( $subtask_list as $subtask ) {
+
+        echo '* jj bash ' . $subtask->get_name() . "\n";
+
+      }
+    }
+    else {
+
+      parent::print_help();
+
+    }
   }
 }

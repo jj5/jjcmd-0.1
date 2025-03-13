@@ -24,6 +24,9 @@ abstract class AppTask {
   protected array $sequential_arg_map;
   protected array $named_arg_map;
 
+  protected array|null $subtasks = null;
+  protected AppTask|null $parent_task = null;
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
@@ -57,6 +60,49 @@ abstract class AppTask {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - public functions...
   //
+
+  public function get_subtasks() : array {
+
+    if ( $this->subtasks === null ) {
+
+      $this->subtasks = $this->calc_subtasks();
+
+    }
+
+    return $this->subtasks;
+
+  }
+
+  public function get_parent_task() : AppTask|null {
+
+    if ( ! $this->parent_task ) {
+
+      $parts = explode( '_', $this->reflection_class->getShortName() );
+
+      while ( array_pop( $parts ) ) {
+
+        $parent_class = implode( '_', $parts );
+
+        echo "parent_class: $parent_class\n";
+
+        if ( class_exists( $parent_class ) ) {
+
+          $task = app()->get_task( $parent_class );
+
+          $this->parent_task = $task;
+
+          return $task;
+
+        }
+      }
+
+      $this->parent_task = $this;
+
+    }
+
+    return $this->parent_task;
+
+  }
 
   public function process() {
 
@@ -249,7 +295,30 @@ abstract class AppTask {
 
   public function print_usage() {
 
-    echo "Usage: jj " . $this->get_name() . " " . $this->get_usage() . "\n";
+    $task = $this;
+
+    $path = [];
+
+    do {
+
+      $name = $task->get_name();
+
+      var_dump( $name );
+
+      $path[] = $name;
+
+      $task = $task->get_parent_task();
+
+    }
+    while ( $task !== $task->get_parent_task() );
+
+    var_dump( $path ); exit;
+
+    array_reverse( $path );
+
+    $path = implode( ' ', $path );
+
+    echo "Usage: jj $path " . $this->get_usage() . "\n";
 
   }
 
@@ -296,7 +365,16 @@ abstract class AppTask {
 
   protected function define_name() : string {
 
-    return str_replace( '_', '-', substr( $this->reflection_class->getShortName(), 3 ) );
+    $this_class = $this->reflection_class->getShortName();
+    $parent_class = get_parent_class( $this_class );
+
+    if ( strpos( $parent_class, 'App' ) === 0 ) {
+
+      return str_replace( '_', '-', substr( $this_class, 3 ) );
+
+    }
+
+    return str_replace( '_', '-', substr( $this_class, strlen( $parent_class ) + 1 ) );
 
   }
 
@@ -307,6 +385,31 @@ abstract class AppTask {
     $width = $width ? intval( $width ) : 80;
 
     return trim( wordwrap( $text, $width, "\n" ) );
+
+  }
+
+  public function calc_subtasks() {
+
+    $result = [];
+
+    $prefix = $this->reflection_class->getShortName() . '_';
+
+    foreach ( get_declared_classes() as $class ) {
+
+      if ( isset( $result[ $class ] ) ) { continue; }
+
+      if ( strpos( $class, $prefix ) === 0 ) {
+
+        $subtask = app()->get_task( $class );
+
+        $subtask->set_parent_task( $this );
+
+        $result[ $class ] = $subtask;
+
+      }
+    }
+
+    return $result;
 
   }
 }
