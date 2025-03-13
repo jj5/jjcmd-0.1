@@ -5,13 +5,13 @@
 export JJCMD_NAME='Command-Line Tooling for Jay Jay';
 export JJCMD_CODE='jjcmd';
 
-export JJCMD_VERSION='0.1.59';
+export JJCMD_VERSION='0.1.61';
 export JJCMD_VERSION_MAJOR='0';
 export JJCMD_VERSION_MINOR='1';
-export JJCMD_VERSION_PATCH='59';
+export JJCMD_VERSION_PATCH='61';
 
-export JJCMD_SVN_DATE='Date: 2025-03-14 01:18:08 +1100 (Fri, 14 Mar 2025)';
-export JJCMD_SVN_REVISION='Revision: 110618759';
+export JJCMD_SVN_DATE='Date: 2025-03-14 01:31:56 +1100 (Fri, 14 Mar 2025)';
+export JJCMD_SVN_REVISION='Revision: 23101574';
 export JJCMD_SVN_AUTHOR='Author: jj5';
 
-export JJCMD_GIT_DATE='2025-03-14 01:18:08 +1100 (Fri, 14 Mar 2025)';
+export JJCMD_GIT_DATE='2025-03-14 01:31:56 +1100 (Fri, 14 Mar 2025)';
