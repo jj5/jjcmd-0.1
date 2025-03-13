@@ -1,6 +1,6 @@
 <?php
 
-class jj_bash_new extends AppLanguage {
+class jj_bash_array extends AppLanguage {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@ class jj_bash_new extends AppLanguage {
 
   protected function define_description() : string {
 
-    return "Create a new BASH script.";
+    return "How to use arrays in BASH.";
 
   }
 
@@ -28,19 +28,22 @@ class jj_bash_new extends AppLanguage {
 
   public function print() {
 ?>
-#!/bin/bash
-
-main() {
-
-  set -euo pipefail;
-  #shopt -s dotglob;
-  #shopt -s nullglob;
-
-  pushd "$( dirname "$0" )" >/dev/null;
-
+array_demo() {
+  local arr=();
+  array_report "${arr[@]}";
+  arr+=( 1 2 3 );
+  array_report "${arr[@]}";
+  arr+=( 4 5 6 );
+  array_report "${arr[@]}";
 }
-
-main "$@";
+array_report() {
+  local arr=("$@");
+  echo;
+  echo "We have ${#arr[@]} items...";
+  for val in "${arr[@]}"; do
+    echo $val;
+  done;
+}
 <?php
   }
 }

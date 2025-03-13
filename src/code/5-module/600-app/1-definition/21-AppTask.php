@@ -65,6 +65,14 @@ abstract class AppTask {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function get_parent_task() : AppTask {
+
+    // 2025-03-14 jj5 - HACK! This is regrettable, I should fix it...
+
+    return $this;
+
+  }
+
   public function is_subtask() : bool { return false; }
 
   public function complete( $arg1, $arg2, $arg3, $arg4 ) {
@@ -224,7 +232,7 @@ abstract class AppTask {
 
   }
 
-  public function print_help() {
+  public function print_help( array $args ) {
 
     $opt_list = [];
     $req_list = [];
@@ -282,16 +290,12 @@ abstract class AppTask {
 
       $name = $task->get_name();
 
-      var_dump( $name );
-
       $path[] = $name;
 
       $task = $task->get_parent_task();
 
     }
     while ( $task !== $task->get_parent_task() );
-
-    var_dump( $path ); exit;
 
     array_reverse( $path );
 

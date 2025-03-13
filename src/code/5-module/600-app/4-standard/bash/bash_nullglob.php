@@ -1,6 +1,6 @@
 <?php
 
-class jj_bash_new extends AppLanguage {
+class jj_bash_nullglob extends AppLanguage {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@ class jj_bash_new extends AppLanguage {
 
   protected function define_description() : string {
 
-    return "Create a new BASH script.";
+    return "How to configure null globbing in BASH.";
 
   }
 
@@ -28,19 +28,7 @@ class jj_bash_new extends AppLanguage {
 
   public function print() {
 ?>
-#!/bin/bash
-
-main() {
-
-  set -euo pipefail;
-  #shopt -s dotglob;
-  #shopt -s nullglob;
-
-  pushd "$( dirname "$0" )" >/dev/null;
-
-}
-
-main "$@";
+shopt -s nullglob;
 <?php
   }
 }

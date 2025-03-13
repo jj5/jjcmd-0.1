@@ -53,7 +53,13 @@ abstract class AppTaskGroup extends AppTask {
 
   protected function add_subtask( string $class ) {
 
-    $subtask = app()->new_task( $class, $this );
+    $subtask = app()->get_task( $class );
+
+    if ( ! $subtask ) {
+
+      $subtask = app()->new_task( $class, $this );
+
+    }
 
     $this->subtask_list[] = $subtask;
 

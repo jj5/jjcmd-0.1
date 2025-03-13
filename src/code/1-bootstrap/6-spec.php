@@ -104,6 +104,14 @@ require_once __DIR__ . '/5-module.php';
     $is_list = true,
   );
 
+  app()->add_sequential_parameter(
+    'LANGUAGE',
+    'The LANGUAGE of the new file.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
+  );
+
   // 2025-03-14 jj5 - these are the flags that can be used by any task in the application...
 
   app()->add_flag_parameter(
@@ -134,6 +142,7 @@ require_once __DIR__ . '/5-module.php';
   app()->add_task( jj_host::class );
 
   app()->add_task( jj_bash::class );
+  app()->add_task( jj_new::class );
 
   app()->add_task( jj_help::class );
 

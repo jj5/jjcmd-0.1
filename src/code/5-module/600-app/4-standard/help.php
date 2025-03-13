@@ -83,7 +83,7 @@ class jj_help extends AppStandard {
 
     $task = app_find_task( $args );
 
-    $task->print_help();
+    $task->print_help( $args );
 
   }
 }

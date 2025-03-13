@@ -1,6 +1,6 @@
 <?php
 
-class jj_bash_new extends AppLanguage {
+class jj_bash_args extends AppLanguage {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@ class jj_bash_new extends AppLanguage {
 
   protected function define_description() : string {
 
-    return "Create a new BASH script.";
+    return "How to read arguments in BASH.";
 
   }
 
@@ -28,19 +28,27 @@ class jj_bash_new extends AppLanguage {
 
   public function print() {
 ?>
-#!/bin/bash
+# read arg 1 or use empty string '' if not provided:
+#
+local not_null="${1:-}";
 
-main() {
+# read arg 1 or use 'missing' if not provided:
+#
+local not_null="${1:-missing}";
 
-  set -euo pipefail;
-  #shopt -s dotglob;
-  #shopt -s nullglob;
+# non-destructively:
+#
+for var in "$@"; do
+  echo "$var";
+done;
 
-  pushd "$( dirname "$0" )" >/dev/null;
-
-}
-
-main "$@";
+# destructively:
+#
+while [[ $# > 0 ]]; do
+  local var="$1";
+  shift;
+  echo "$var";
+done;
 <?php
   }
 }

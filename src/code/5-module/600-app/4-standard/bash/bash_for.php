@@ -1,6 +1,6 @@
 <?php
 
-class jj_bash_new extends AppLanguage {
+class jj_bash_for extends AppLanguage {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@ class jj_bash_new extends AppLanguage {
 
   protected function define_description() : string {
 
-    return "Create a new BASH script.";
+    return "How to 'for' loops in BASH.";
 
   }
 
@@ -28,19 +28,25 @@ class jj_bash_new extends AppLanguage {
 
   public function print() {
 ?>
-#!/bin/bash
+local list=( 'A', 'B', 'C' );
 
-main() {
+for item in "${list[@]}"; do
 
-  set -euo pipefail;
-  #shopt -s dotglob;
-  #shopt -s nullglob;
+  echo "checking $item...";
 
-  pushd "$( dirname "$0" )" >/dev/null;
+  [ "$item" == "B" ] && continue;
 
-}
+  echo "found $item...";
 
-main "$@";
+done;
+
+local length=${#list[@]}
+
+for (( i=0; i<length; i++ )); do
+
+  printf "index %d with value %s\n" $i "${list[$i]}"
+
+done
 <?php
   }
 }

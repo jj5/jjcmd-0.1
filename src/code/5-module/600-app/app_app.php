@@ -25,6 +25,7 @@ require_once __DIR__ . '/1-definition/23-AppShell.php';
 require_once __DIR__ . '/1-definition/24-AppStandard.php';
 require_once __DIR__ . '/1-definition/25-AppTaskGroup.php';
 require_once __DIR__ . '/1-definition/26-AppSubtask.php';
+require_once __DIR__ . '/1-definition/27-AppLanguage.php';
 
 require_once __DIR__ . '/1-definition/31-AppItem.php';
 
@@ -33,6 +34,7 @@ require_once __DIR__ . '/1-definition/99-AppModule.php';
 mud_load_deep_breadth_first( __DIR__ . '/2-internal' );
 mud_load_deep_breadth_first( __DIR__ . '/3-shell' );
 mud_load_deep_breadth_first( __DIR__ . '/4-standard' );
+mud_load_deep_breadth_first( __DIR__ . '/5-meta' );
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

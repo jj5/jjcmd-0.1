@@ -1,6 +1,6 @@
 <?php
 
-class jj_bash_new extends AppLanguage {
+class jj_bash_increment extends AppLanguage {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@ class jj_bash_new extends AppLanguage {
 
   protected function define_description() : string {
 
-    return "Create a new BASH script.";
+    return "How to increment numbers in BASH.";
 
   }
 
@@ -28,19 +28,9 @@ class jj_bash_new extends AppLanguage {
 
   public function print() {
 ?>
-#!/bin/bash
-
-main() {
-
-  set -euo pipefail;
-  #shopt -s dotglob;
-  #shopt -s nullglob;
-
-  pushd "$( dirname "$0" )" >/dev/null;
-
-}
-
-main "$@";
+local val=123;
+val=$(( val + 77 ));
+echo $val;
 <?php
   }
 }
