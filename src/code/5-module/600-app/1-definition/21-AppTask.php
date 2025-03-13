@@ -392,4 +392,68 @@ abstract class AppTask {
     return $result;
 
   }
+
+  protected function complete_file( $arg2 ) {
+
+    $search = '.';
+
+    mud_log_trace( 'arg2', $arg2 );
+
+    if ( $arg2 === '' ) {
+
+      // 2025-03-12 jj5 - nothing to do...
+
+    }
+    elseif ( is_dir( $arg2 ) ) {
+
+      $search = rtrim( $arg2, '/' );
+
+    }
+    else {
+
+      $search = dirname( $arg2 );
+
+    }
+
+    $list = [];
+
+    foreach ( scandir( $search ) as $item ) {
+
+      if ( $item === '.' ) { continue; }
+      if ( $item === '..' ) { continue; }
+
+      $list[] = $item;
+
+    }
+
+    if ( $search === '.' ) {
+
+      $result = $list;
+
+    }
+    else {
+
+      foreach ( $list as $item ) {
+
+        $result[] = "$search/$item";
+
+      }
+    }
+
+    return $this->report_complete( $result, $arg2 );
+
+  }
+
+  protected function report_complete( $list, $arg2 ) {
+
+    foreach ( $list as $item ) {
+
+      if ( strpos( $item, $arg2 ) === 0 ) {
+
+        echo $item . "\n";
+
+      }
+    }
+  }
+
 }

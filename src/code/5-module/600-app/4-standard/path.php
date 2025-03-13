@@ -52,6 +52,12 @@ class jj_path extends AppStandard {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    return $this->complete_file( $arg2 );
+
+  }
+
   public function run() {
 
     $spec = $this->get_arg( 'SPEC' );
