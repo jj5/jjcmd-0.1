@@ -19,6 +19,19 @@ class jj_name extends AppStandard {
 
   }
 
+  protected function define_parameters() {
+
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The search specification.',
+    );
+
+  }
+
+  protected function define_options() {
+
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
@@ -27,11 +40,6 @@ class jj_name extends AppStandard {
   public function __construct() {
 
     parent::__construct();
-
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The search specification.',
-    );
 
   }
 

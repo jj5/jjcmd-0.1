@@ -4,13 +4,6 @@ class jj_find extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-13 jj5 - mixins...
-  //
-
-  use AppFile;
-
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - definitions...
   //
 
@@ -28,6 +21,26 @@ class jj_find extends AppStandard {
 
   }
 
+  protected function define_parameters() {
+
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The search specification.',
+    );
+
+  }
+
+  protected function define_options() {
+
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-13 jj5 - mixins...
+  //
+
+  use AppFile;
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
@@ -36,11 +49,6 @@ class jj_find extends AppStandard {
   public function __construct() {
 
     parent::__construct();
-
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The search specification.',
-    );
 
   }
 

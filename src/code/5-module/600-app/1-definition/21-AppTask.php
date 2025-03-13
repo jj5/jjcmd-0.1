@@ -38,6 +38,9 @@ abstract class AppTask {
     $this->description = $this->define_description();
     $this->args = [];
 
+    $this->define_parameters();
+    $this->define_options();
+
   }
 
 
@@ -52,6 +55,10 @@ abstract class AppTask {
   protected abstract function define_category() : AppTaskCategory;
 
   protected abstract function define_description() : string;
+
+  protected abstract function define_parameters();
+
+  protected abstract function define_options();
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

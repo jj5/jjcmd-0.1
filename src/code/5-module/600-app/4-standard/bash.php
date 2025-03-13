@@ -19,6 +19,16 @@ class jj_bash extends AppTaskGroup {
 
   }
 
+  protected function define_parameters() {
+
+  }
+
+  protected function define_options() {
+
+    $this->add_subtask( jj_bash_new::class );
+
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - constructor...
@@ -27,8 +37,6 @@ class jj_bash extends AppTaskGroup {
   public function __construct() {
 
     parent::__construct();
-
-    $this->add_subtask( jj_bash_new::class );
 
   }
 

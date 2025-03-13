@@ -19,6 +19,23 @@ class jj_edit extends AppShell {
 
   }
 
+  protected function define_parameters() {
+
+    $this->add_sequential_parameter(
+      'ALIAS',
+      'The file to open.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = false,
+    );
+
+  }
+
+  protected function define_options() {
+
+    $this->add_option( 'food', '/home/jj5/repo/svn/jprepo/plog-0.1', 'src/code/food.php' );
+
+  }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - fields...
@@ -34,16 +51,6 @@ class jj_edit extends AppShell {
   public function __construct() {
 
     parent::__construct();
-
-    $this->add_sequential_parameter(
-      'ALIAS',
-      'The file to open.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = false,
-    );
-
-    $this->add_option( 'food', '/home/jj5/repo/svn/jprepo/plog-0.1/src/code', 'food.php' );
 
   }
 
