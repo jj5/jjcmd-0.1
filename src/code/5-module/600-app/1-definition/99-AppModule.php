@@ -31,8 +31,6 @@ class AppModule extends MudModuleApp {
     mud_log_trace( 'script..', $script );
     mud_log_trace( 'args....', $args );
 
-    $this->load_tasks();
-
     $task = $this->find_task( $args );
 
     if ( $task ) {
@@ -75,7 +73,11 @@ class AppModule extends MudModuleApp {
 
     mud_log_trace( "command not found: " . implode( ' ', $args ) );
 
-    return new jj_help( $task_args );
+    $task = new jj_help();
+
+    $task->set_args( $args );
+
+    return $task;
 
   }
 
@@ -86,8 +88,6 @@ class AppModule extends MudModuleApp {
   }
 
   public function get_category_to_task_list() {
-
-    $this->load_tasks();
 
     $result = [];
     $map = $this->category_to_task_list;
