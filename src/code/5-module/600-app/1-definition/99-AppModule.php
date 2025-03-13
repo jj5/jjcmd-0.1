@@ -114,6 +114,12 @@ class AppModule extends MudModuleApp {
 
   }
 
+  public function add_task( $class ) {
+
+    $this->get_task( $class );
+
+  }
+
   public function get_task( $class, AppTask|null $parent = null ) {
 
     if ( ! array_key_exists( $class, $this->class_to_task ) ) {
@@ -127,45 +133,6 @@ class AppModule extends MudModuleApp {
     }
 
     return $this->class_to_task[ $class ];
-
-  }
-
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-13 jj5 - protected functions...
-  //
-
-  protected function load_tasks() {
-
-    $this->add_task( jj_complete::class );
-    $this->add_task( jj_get_type::class );
-
-    $this->add_task( jj_edit::class );
-    $this->add_task( jj_go::class );
-
-    $this->add_task( jj_find::class );
-    $this->add_task( jj_name::class );
-    $this->add_task( jj_path::class );
-
-    $this->add_task( jj_chatgpt::class );
-    $this->add_task( jj_cheat::class );
-    $this->add_task( jj_define::class );
-    $this->add_task( jj_search::class );
-
-    $this->add_task( jj_bkts::class );
-    $this->add_task( jj_clip::class );
-    $this->add_task( jj_clip_file::class );
-    $this->add_task( jj_host::class );
-
-    $this->add_task( jj_bash::class );
-
-    $this->add_task( jj_help::class );
-
-  }
-
-  protected function add_task( $class ) {
-
-    $this->get_task( $class );
 
   }
 }

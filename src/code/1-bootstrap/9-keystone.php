@@ -16,7 +16,7 @@ if ( defined( 'APP_TRACE_LOAD' ) && APP_TRACE_LOAD ) {
 // 2025-03-09 jj5 - load dependencies...
 //
 
-require_once __DIR__ . '/5-module.php';
+require_once __DIR__ . '/6-spec.php';
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
