@@ -1,15 +1,21 @@
 <?php
 
-class jj_bash_new extends jj_bash {
+class jj_clip extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - definitions...
   //
 
+  protected function define_category() : AppTaskCategory {
+
+    return AppTaskCategory::Info;
+
+  }
+
   protected function define_description() : string {
 
-    return "Generates BASH script from template.";
+    return "Copies ARGS to clipboard.";
 
   }
 
@@ -22,6 +28,14 @@ class jj_bash_new extends jj_bash {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'TEXT',
+      'The text to copy.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = true,
+    );
+
   }
 
 
@@ -29,27 +43,17 @@ class jj_bash_new extends jj_bash {
   // 2025-03-12 jj5 - public functions...
   //
 
-  public function run() {
+  public function process() {
 
-    $this->print();
+    $this->capture();
 
   }
 
-  public function print() {
-?>
-#!/bin/bash
+  public function run() {
 
-main() {
+    $text = implode( ' ', $this->get_arg( 'TEXT' ) );
 
-  set -euo pipefail;
-  #shopt -s dotglob;
-  #shopt -s nullglob;
+    mud_stdout( "$text\n" );
 
-  pushd "$( dirname "$0" )" >/dev/null;
-
-}
-
-main "$@";
-<?php
   }
 }

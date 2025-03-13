@@ -1,6 +1,6 @@
 <?php
 
-class jj_path extends AppSearch {
+class jj_name extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ class jj_path extends AppSearch {
 
   protected function define_description() : string {
 
-    return "Searches for svn/git repositories which match the spec and prints out their path.";
+    return "Searches for svn/git repositories which match the spec and prints out their name.";
 
   }
 
@@ -27,6 +27,11 @@ class jj_path extends AppSearch {
   public function __construct() {
 
     parent::__construct();
+
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The search specification.',
+    );
 
   }
 
@@ -55,7 +60,7 @@ class jj_path extends AppSearch {
 
     foreach ( $match as $item ) {
 
-      mud_stdout( $item->path . "\n" );
+      mud_stdout( $item->name . "\n" );
 
     }
 

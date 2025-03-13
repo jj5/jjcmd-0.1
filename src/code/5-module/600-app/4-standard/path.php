@@ -1,6 +1,6 @@
 <?php
 
-class jj_bkts extends AppQuery {
+class jj_path extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_bkts extends AppQuery {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Info;
+    return AppTaskCategory::Search;
 
   }
 
   protected function define_description() : string {
 
-    return "Prints a timestamp.";
+    return "Searches for svn/git repositories which match the spec and prints out their path.";
 
   }
 
@@ -28,6 +28,11 @@ class jj_bkts extends AppQuery {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The search specification.',
+    );
+
   }
 
 
@@ -37,7 +42,29 @@ class jj_bkts extends AppQuery {
 
   public function run() {
 
-    mud_stdout( date( 'Y-m-d-His' ) . "\n" );
+    $spec = $this->get_arg( 'SPEC' );
+
+    $this->get_files( $list, $map );
+
+    $keys = array_keys( $map );
+
+    $match = [];
+
+    foreach ( $keys as $key ) {
+
+      if ( $this->strpos( $key, $spec ) !== 0 ) { continue; }
+
+      $match = array_merge( $match, $map[ $key ] );
+
+    }
+
+    foreach ( $match as $item ) {
+
+      mud_stdout( $item->path . "\n" );
+
+    }
+
+    $this->write_info( $list, $match );
 
   }
 }

@@ -14,11 +14,25 @@ jj() {
 
     shell)
 
-      while IFS= read -r command; do
+      while IFS= read -r path; do
 
-        jj_log_trace $command;
+        jj_log_trace $path;
 
-        $command < /dev/tty || return 1;
+        if [ -d "$path" ]; then
+
+          pushd "$path" > /dev/null || return 1;
+
+        elif [ -e "$path" ]; then
+
+          vim "$path" < /dev/tty || return 1;
+
+        else
+
+          >&2 echo "path not found: $path";
+
+          return 1;
+
+        fi;
 
       done < <( "$JJCMD_PATH" "$@" );
 

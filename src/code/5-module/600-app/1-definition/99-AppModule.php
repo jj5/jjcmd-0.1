@@ -31,6 +31,8 @@ class AppModule extends MudModuleApp {
     mud_log_trace( 'script..', $script );
     mud_log_trace( 'args....', $args );
 
+    $this->load_tasks();
+
     $task = $this->find_task( $args );
 
     if ( $task ) {
@@ -112,13 +114,11 @@ class AppModule extends MudModuleApp {
 
   }
 
-  public function get_task( $class ) {
-
-    echo "getting class $class\n";
+  public function get_task( $class, AppTask|null $parent = null ) {
 
     if ( ! array_key_exists( $class, $this->class_to_task ) ) {
 
-      $task = new $class();
+      $task = new $class( $parent );
 
       $this->class_to_task[ $class ] = $task;
       $this->task_list[] = $task;
@@ -132,20 +132,40 @@ class AppModule extends MudModuleApp {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-12 jj5 - private functions...
+  // 2025-03-13 jj5 - protected functions...
   //
 
-  private function load_tasks() {
+  protected function load_tasks() {
 
-    if ( $this->task_list ) { return; }
+    $this->add_task( jj_complete::class );
+    $this->add_task( jj_get_type::class );
 
-    foreach ( get_declared_classes() as $class ) {
+    $this->add_task( jj_edit::class );
+    $this->add_task( jj_go::class );
 
-      if ( strpos( $class, 'jj_' ) === 0 ) {
+    $this->add_task( jj_find::class );
+    $this->add_task( jj_name::class );
+    $this->add_task( jj_path::class );
 
-        $this->get_task( $class );
+    $this->add_task( jj_chatgpt::class );
+    $this->add_task( jj_cheat::class );
+    $this->add_task( jj_define::class );
+    $this->add_task( jj_search::class );
 
-      }
-    }
+    $this->add_task( jj_bkts::class );
+    $this->add_task( jj_clip::class );
+    $this->add_task( jj_clip_file::class );
+    $this->add_task( jj_host::class );
+
+    $this->add_task( jj_bash::class );
+
+    $this->add_task( jj_help::class );
+
+  }
+
+  protected function add_task( $class ) {
+
+    $this->get_task( $class );
+
   }
 }

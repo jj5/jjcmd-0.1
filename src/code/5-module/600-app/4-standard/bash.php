@@ -1,6 +1,6 @@
 <?php
 
-class jj_clip_file extends AppQuery {
+class jj_bash extends AppTaskGroup {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_clip_file extends AppQuery {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Info;
+    return AppTaskCategory::Languages;
 
   }
 
   protected function define_description() : string {
 
-    return "Copies ARGS to clipboard.";
+    return "Generates BASH code.";
 
   }
 
@@ -28,13 +28,7 @@ class jj_clip_file extends AppQuery {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'FILE',
-      'The FILEs to copy.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    $this->add_subtask( jj_bash_new::class );
 
   }
 
@@ -43,19 +37,41 @@ class jj_clip_file extends AppQuery {
   // 2025-03-12 jj5 - public functions...
   //
 
-  public function process() {
-
-    $this->capture( $trim = false );
-
-  }
-
   public function run() {
 
-    foreach ( $this->get_arg( 'FILE' ) as $file ) {
+    $spec = $this->get_arg( 'SPEC' );
 
-      readfile( $file );
+    $class = get_called_class() . '_' . $spec;
 
-      echo "\n";
+    if ( class_exists( $class ) ) {
+
+      $subtask = new $class();
+
+      $subtask->run();
+
+    }
+    else {
+
+      $this->print_help();
+
+    }
+  }
+
+  public function print_help() {
+
+    $subtask_list = $this->get_subtask_list();
+
+    if ( $subtask_list ) {
+
+      foreach ( $subtask_list as $subtask ) {
+
+        echo '* jj bash ' . $subtask->get_name() . "\n";
+
+      }
+    }
+    else {
+
+      parent::print_help();
 
     }
   }

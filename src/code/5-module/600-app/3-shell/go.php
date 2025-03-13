@@ -65,7 +65,7 @@ class jj_go extends AppShell {
       //
       if ( $key === $spec ) {
 
-        mud_stdout( 'pushd ' . $map[ $key ][ 0 ]->path . "\n" );
+        mud_stdout( $map[ $key ][ 0 ]->path . "\n" );
 
         return;
 
@@ -77,7 +77,7 @@ class jj_go extends AppShell {
 
     if ( count( $match ) === 1 ) {
 
-      mud_stdout( 'pushd ' . $match[ 0 ]->path . "\n" );
+      mud_stdout( $match[ 0 ]->path . "\n" );
 
       return;
 

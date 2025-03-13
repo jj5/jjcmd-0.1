@@ -1,6 +1,6 @@
 <?php
 
-class jj_define extends AppShell {
+class jj_bash_new extends AppSubtask {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_define extends AppShell {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Web;
+    return AppTaskCategory::Languages;
 
   }
 
   protected function define_description() : string {
 
-    return "Searches the web for a definition for SPEC.";
+    return "Generates BASH script from template.";
 
   }
 
@@ -24,17 +24,9 @@ class jj_define extends AppShell {
   // 2025-03-12 jj5 - constructor...
   //
 
-  public function __construct() {
+  public function __construct( AppTask $parent ) {
 
-    parent::__construct();
-
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    parent::__construct( $parent );
 
   }
 
@@ -45,11 +37,25 @@ class jj_define extends AppShell {
 
   public function run() {
 
-    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
+    $this->print();
 
-    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=definition&q=' . urlencode( $spec ) );
+  }
 
-    mud_stdout( 'firefox ' . $query . "\n" );
+  public function print() {
+?>
+#!/bin/bash
 
+main() {
+
+  set -euo pipefail;
+  #shopt -s dotglob;
+  #shopt -s nullglob;
+
+  pushd "$( dirname "$0" )" >/dev/null;
+
+}
+
+main "$@";
+<?php
   }
 }

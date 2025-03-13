@@ -1,6 +1,6 @@
 <?php
 
-abstract class AppFunction extends AppTask {
+abstract class AppStandard extends AppTask {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,8 +41,10 @@ abstract class AppFunction extends AppTask {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-12 jj5 - protected functions...
+  // 2025-03-13 jj5 - protected functions...
   //
+
+  protected function define_type() : AppTaskType { return AppTaskType::Standard; }
 
   protected function capture( $trim = true ) {
 

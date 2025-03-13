@@ -1,6 +1,6 @@
 <?php
 
-class jj_search extends AppShell {
+class jj_clip_file extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_search extends AppShell {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Web;
+    return AppTaskCategory::Info;
 
   }
 
   protected function define_description() : string {
 
-    return "Searches the web for SPEC.";
+    return "Copies ARGS to clipboard.";
 
   }
 
@@ -29,8 +29,8 @@ class jj_search extends AppShell {
     parent::__construct();
 
     $this->add_sequential_parameter(
-      'SPEC',
-      'The query.',
+      'FILE',
+      'The FILEs to copy.',
       AppParameterType::String,
       $is_optional = false,
       $is_list = true,
@@ -43,13 +43,20 @@ class jj_search extends AppShell {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function process() {
+
+    $this->capture( $trim = false );
+
+  }
+
   public function run() {
 
-    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
+    foreach ( $this->get_arg( 'FILE' ) as $file ) {
 
-    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=web&q=' . urlencode( $spec ) );
+      readfile( $file );
 
-    mud_stdout( 'firefox ' . $query . "\n" );
+      echo "\n";
 
+    }
   }
 }

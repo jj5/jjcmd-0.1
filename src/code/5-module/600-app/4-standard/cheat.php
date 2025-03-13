@@ -1,6 +1,6 @@
 <?php
 
-class jj_chatgpt extends AppShell {
+class jj_cheat extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ class jj_chatgpt extends AppShell {
 
   protected function define_description() : string {
 
-    return "Opens ChatGPT in Chromium.";
+    return "Finds cheatsheets for SPEC from https://cheat.sh/ (web site).";
 
   }
 
@@ -28,6 +28,14 @@ class jj_chatgpt extends AppShell {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'ARG',
+      'The query.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = false,
+    );
+
   }
 
 
@@ -37,7 +45,9 @@ class jj_chatgpt extends AppShell {
 
   public function run() {
 
-    mud_stdout( "chromium https://chatgpt.com/\n" );
+    $query = addslashes( 'https://cheat.sh/' . urlencode( $this->get_arg( 'ARG' ) ) );
+
+    mud_stdout( 'curl ' . $query . "\n" );
 
   }
 }

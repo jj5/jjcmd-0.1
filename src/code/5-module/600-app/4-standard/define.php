@@ -1,6 +1,6 @@
 <?php
 
-class jj_bash extends AppLanguage {
+class jj_define extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_bash extends AppLanguage {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Languages;
+    return AppTaskCategory::Web;
 
   }
 
   protected function define_description() : string {
 
-    return "Generates BASH code.";
+    return "Searches the web for a definition for SPEC.";
 
   }
 
@@ -30,10 +30,10 @@ class jj_bash extends AppLanguage {
 
     $this->add_sequential_parameter(
       'SPEC',
-      'The name of the item you want.',
+      'The query.',
       AppParameterType::String,
-      $is_optional = true,
-      $is_list = false,
+      $is_optional = false,
+      $is_list = true,
     );
 
   }
@@ -45,40 +45,11 @@ class jj_bash extends AppLanguage {
 
   public function run() {
 
-    $spec = $this->get_arg( 'SPEC' );
+    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
 
-    $class = get_called_class() . '_' . $spec;
+    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=definition&q=' . urlencode( $spec ) );
 
-    if ( class_exists( $class ) ) {
+    mud_stdout( 'firefox ' . $query . "\n" );
 
-      $subtask = new $class();
-
-      $subtask->run();
-
-    }
-    else {
-
-      $this->print_help();
-
-    }
-  }
-
-  public function print_help() {
-
-    $subtask_list = $this->get_subtasks();
-
-    if ( $subtask_list ) {
-
-      foreach ( $subtask_list as $subtask ) {
-
-        echo '* jj bash ' . $subtask->get_name() . "\n";
-
-      }
-    }
-    else {
-
-      parent::print_help();
-
-    }
   }
 }

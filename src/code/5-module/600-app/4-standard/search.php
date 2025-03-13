@@ -1,6 +1,6 @@
 <?php
 
-class jj_name extends AppSearch {
+class jj_search extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,13 +9,13 @@ class jj_name extends AppSearch {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Search;
+    return AppTaskCategory::Web;
 
   }
 
   protected function define_description() : string {
 
-    return "Searches for svn/git repositories which match the spec and prints out their name.";
+    return "Searches the web for SPEC.";
 
   }
 
@@ -28,6 +28,14 @@ class jj_name extends AppSearch {
 
     parent::__construct();
 
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The query.',
+      AppParameterType::String,
+      $is_optional = false,
+      $is_list = true,
+    );
+
   }
 
 
@@ -37,29 +45,11 @@ class jj_name extends AppSearch {
 
   public function run() {
 
-    $spec = $this->get_arg( 'SPEC' );
+    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
 
-    $this->get_files( $list, $map );
+    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=web&q=' . urlencode( $spec ) );
 
-    $keys = array_keys( $map );
-
-    $match = [];
-
-    foreach ( $keys as $key ) {
-
-      if ( $this->strpos( $key, $spec ) !== 0 ) { continue; }
-
-      $match = array_merge( $match, $map[ $key ] );
-
-    }
-
-    foreach ( $match as $item ) {
-
-      mud_stdout( $item->name . "\n" );
-
-    }
-
-    $this->write_info( $list, $match );
+    mud_stdout( 'firefox ' . $query . "\n" );
 
   }
 }

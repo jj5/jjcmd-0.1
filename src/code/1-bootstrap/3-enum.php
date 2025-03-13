@@ -20,17 +20,16 @@ require_once __DIR__ . '/2-constant.php';
 enum AppTaskType : string {
   case Internal = 'internal';
   case Shell = 'shell';
-  case Query = 'query';
-  case Order = 'order';
+  case Standard = 'standard';
 }
 
 enum AppTaskCategory : string {
   case Internal = 'Internal';
+  case Shell = 'Shell';
   case Search = 'Search';
   case Web = 'Web';
   case Info = 'Info';
   case Tools = 'Tools';
-  case Shell = 'Shell';
   case Languages = 'Languages';
   case Help = 'Help';
 }

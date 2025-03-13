@@ -1,6 +1,6 @@
 <?php
 
-class jj_clip extends AppQuery {
+class jj_bkts extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@ class jj_clip extends AppQuery {
 
   protected function define_description() : string {
 
-    return "Copies ARGS to clipboard.";
+    return "Prints a timestamp.";
 
   }
 
@@ -28,14 +28,6 @@ class jj_clip extends AppQuery {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'TEXT',
-      'The text to copy.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
-
   }
 
 
@@ -43,17 +35,9 @@ class jj_clip extends AppQuery {
   // 2025-03-12 jj5 - public functions...
   //
 
-  public function process() {
-
-    $this->capture();
-
-  }
-
   public function run() {
 
-    $text = implode( ' ', $this->get_arg( 'TEXT' ) );
-
-    mud_stdout( "$text\n" );
+    mud_stdout( date( 'Y-m-d-His' ) . "\n" );
 
   }
 }

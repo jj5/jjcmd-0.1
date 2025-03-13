@@ -1,6 +1,13 @@
 <?php
 
-class jj_find extends AppSearch {
+class jj_find extends AppStandard {
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-13 jj5 - mixins...
+  //
+
+  use AppFile;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +36,11 @@ class jj_find extends AppSearch {
   public function __construct() {
 
     parent::__construct();
+
+    $this->add_sequential_parameter(
+      'SPEC',
+      'The search specification.',
+    );
 
   }
 

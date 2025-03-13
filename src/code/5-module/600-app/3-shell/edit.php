@@ -73,8 +73,8 @@ class jj_edit extends AppShell {
 
     }
 
-    echo  "pushd $dir\n" .
-          "vim $file\n";
+    echo  "$dir\n" .
+          "$file\n";
 
   }
 
