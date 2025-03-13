@@ -47,9 +47,9 @@ class jj_search extends AppStandard {
 
     $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
 
-    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=web&q=' . urlencode( $spec ) );
+    $query = escapeshellarg( 'https://duckduckgo.com/?atb=v320-1&ia=web&q=' . urlencode( $spec ) );
 
-    mud_stdout( 'firefox ' . $query . "\n" );
+    exec( 'firefox ' . $query );
 
   }
 }

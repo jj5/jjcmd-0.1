@@ -37,7 +37,7 @@ class jj_chatgpt extends AppStandard {
 
   public function run() {
 
-    mud_stdout( "chromium https://chatgpt.com/\n" );
+    exec( 'chromium https://chatgpt.com/' );
 
   }
 }
