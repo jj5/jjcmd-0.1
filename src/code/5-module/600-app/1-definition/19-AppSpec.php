@@ -102,14 +102,13 @@ trait AppSpec {
 
   }
 
-  protected function add_flag_parameter(
-    string $name,
-    string $description,
-  ) {
+  protected function add_flag_parameter( string $name ) {
+
+    $template = app()->get_parameter( $name );
 
     $param = new AppFlagParameter(
       $name,
-      $description,
+      $template->get_description(),
       AppParameterType::Boolean,
       $is_optional = true,
       true,

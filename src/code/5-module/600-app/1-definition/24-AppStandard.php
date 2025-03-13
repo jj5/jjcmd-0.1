@@ -11,10 +11,7 @@ abstract class AppStandard extends AppTask {
 
     parent::__construct();
 
-    $this->add_flag_parameter(
-      '--clip',
-      'Copy the output to the clipboard.',
-    );
+    $this->add_flag_parameter( '--clip' );
 
   }
 

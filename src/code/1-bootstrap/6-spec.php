@@ -104,6 +104,12 @@ require_once __DIR__ . '/5-module.php';
     $is_list = true,
   );
 
+  // 2025-03-14 jj5 - these are the flags that can be used by any task in the application...
+
+  app()->add_flag_parameter(
+    '--clip',
+    'Copy the output to the clipboard.',
+  );
 
 
   // 2025-03-13 jj5 - here we define the main tasks...
