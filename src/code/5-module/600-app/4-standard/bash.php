@@ -21,6 +21,8 @@ class jj_bash extends AppTaskGroup {
 
   protected function define_parameters() {
 
+    $this->add_sequential_parameter( 'SUBTASK' );
+
   }
 
   protected function define_options() {
@@ -47,7 +49,7 @@ class jj_bash extends AppTaskGroup {
 
   public function run() {
 
-    $spec = $this->get_arg( 'SPEC' );
+    $spec = $this->get_arg( 'SUBTASK' );
 
     $class = get_called_class() . '_' . $spec;
 

@@ -20,9 +20,9 @@ class AppSequentialParameter extends AppParameter {
     string $name,
     string $description,
     AppParameterType $type,
-    bool $is_optional,
+    bool|null $is_optional,
     bool $is_list,
-    int $index,
+    int $index = -1,
   ) {
 
     parent::__construct( $name, $description, $type, $is_optional );

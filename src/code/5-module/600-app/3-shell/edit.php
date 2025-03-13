@@ -21,13 +21,7 @@ class jj_edit extends AppShell {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'ALIAS',
-      'The file to open.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = false,
-    );
+    $this->add_sequential_parameter( 'ALIAS' );
 
   }
 

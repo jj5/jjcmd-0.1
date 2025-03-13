@@ -21,13 +21,7 @@ class jj_search extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'SPEC' );
 
   }
 

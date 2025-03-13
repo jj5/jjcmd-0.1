@@ -22,13 +22,7 @@ class jj_get_type extends AppInternal {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'TASK',
-      'The task to query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'TASK' );
 
   }
 

@@ -18,20 +18,25 @@ abstract class AppTaskGroup extends AppTask {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The name of the item you want.',
-      AppParameterType::String,
-      $is_optional = true,
-      $is_list = false,
-    );
-
   }
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-13 jj5 - public functions...
   //
+
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    //mud_log_trace( "complete", [ $arg1, $arg2, $arg3, $arg4 ] );
+
+    $subtask_list = $this->get_subtask_list();
+
+    foreach ( $subtask_list as $subtask ) {
+
+      echo $subtask->get_name() . "\n";
+
+    }
+  }
 
   public function get_subtask_list() : array {
 
@@ -48,7 +53,7 @@ abstract class AppTaskGroup extends AppTask {
 
   protected function add_subtask( string $class ) {
 
-    $subtask = app()->get_task( $class, $this );
+    $subtask = app()->new_task( $class, $this );
 
     $this->subtask_list[] = $subtask;
 

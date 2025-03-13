@@ -67,6 +67,12 @@ abstract class AppTask {
 
   public function is_subtask() : bool { return false; }
 
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    mud_log_trace( "complete", [ $arg1, $arg2, $arg3, $arg4 ] );
+
+  }
+
   public function process() {
 
     $this->run();

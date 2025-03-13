@@ -18,7 +18,7 @@ class AppFlagParameter extends AppNamedParameter {
     string $name,
     string $description,
     AppParameterType $type,
-    bool $is_optional,
+    bool|null $is_optional,
     bool $value,
   ) {
 

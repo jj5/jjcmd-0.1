@@ -16,7 +16,7 @@ class AppNamedParameter extends AppParameter {
     string $name,
     string $description,
     AppParameterType $type,
-    bool $is_optional,
+    bool|null $is_optional,
   ) {
 
     parent::__construct( $name, $description, $type, $is_optional );

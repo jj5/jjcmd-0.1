@@ -21,13 +21,7 @@ class jj_clip extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'TEXT',
-      'The text to copy.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'TEXT' );
 
   }
 

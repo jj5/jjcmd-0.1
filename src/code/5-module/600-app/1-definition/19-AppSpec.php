@@ -43,24 +43,32 @@ trait AppSpec {
   // 2025-03-12 jj5 - protected functions...
   //
 
-  protected function add_sequential_parameter(
-    string $name,
-    string $description,
-    AppParameterType $type = AppParameterType::String,
-    bool|null $is_optional = null,
-    bool $is_list = false
-  ) {
+  protected function add_sequential_parameter( string $name, bool|null $is_optional = null ) {
+
+    $template = app()->get_parameter( $name );
 
     $index = count( $this->sequential_parameter_list );
 
-    if ( $is_optional === null ) { $is_optional = $index > 0; }
+    if ( $is_optional === null ) {
+
+      if ( $template->is_optional() === null ) {
+
+        $is_optional = $index > 0;
+
+      }
+      else {
+
+        $is_optional = true;
+
+      }
+    }
 
     $parameter = new AppSequentialParameter(
       $name,
-      $description,
-      $type,
+      $template->get_description(),
+      $template->get_type(),
       $is_optional,
-      $is_list,
+      $template->is_list(),
       $index,
     );
 

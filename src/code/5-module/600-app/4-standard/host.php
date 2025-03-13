@@ -21,13 +21,7 @@ class jj_host extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The name of the item you want.',
-      AppParameterType::String,
-      $is_optional = true,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'INFO' );
 
   }
 
@@ -53,7 +47,7 @@ class jj_host extends AppStandard {
 
   public function run() {
 
-    $item_list = $this->get_arg( 'SPEC' );
+    $item_list = $this->get_arg( 'INFO' );
 
     if ( count( $item_list ) === 1 ) {
 

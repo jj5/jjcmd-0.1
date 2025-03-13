@@ -21,13 +21,7 @@ class jj_clip_file extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'FILE',
-      'The FILEs to copy.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'FILE' );
 
   }
 

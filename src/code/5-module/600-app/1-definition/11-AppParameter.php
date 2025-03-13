@@ -10,7 +10,7 @@ abstract class AppParameter {
   protected string $name;
   protected string $description;
   protected AppParameterType $type;
-  protected bool $is_optional;
+  protected bool|null $is_optional;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ abstract class AppParameter {
     string $name,
     string $description,
     AppParameterType $type,
-    bool $is_optional = false,
+    bool|null $is_optional = null,
   ) {
 
     $this->name = $name;
@@ -57,7 +57,7 @@ abstract class AppParameter {
     return $this->type;
   }
 
-  public function is_optional() : bool {
+  public function is_optional() : bool|null {
     return $this->is_optional;
   }
 

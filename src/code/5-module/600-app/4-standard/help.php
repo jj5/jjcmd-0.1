@@ -21,13 +21,7 @@ class jj_help extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'TASK',
-      'The task to query.',
-      AppParameterType::String,
-      $is_optional = true,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'TASK', $is_optional = true );
 
   }
 

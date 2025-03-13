@@ -21,25 +21,10 @@ class jj_complete extends AppInternal {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'ARG1',
-      'The 1st argument.',
-    );
-
-    $this->add_sequential_parameter(
-      'ARG2',
-      'The 2nd argument.',
-    );
-
-    $this->add_sequential_parameter(
-      'ARG3',
-      'The 3rd argument.',
-    );
-
-    $this->add_sequential_parameter(
-      'ARG4',
-      'The 4th argument.',
-    );
+    $this->add_sequential_parameter( 'ARG1' );
+    $this->add_sequential_parameter( 'ARG2' );
+    $this->add_sequential_parameter( 'ARG3' );
+    $this->add_sequential_parameter( 'ARG4' );
 
   }
 
@@ -67,7 +52,59 @@ class jj_complete extends AppInternal {
 
     mud_log_trace( "jj_complete", $this->args );
 
-    echo "option-1\noption-2\n";
+    $arg1 = $this->get_arg( 'ARG1' );
+    $arg2 = $this->get_arg( 'ARG2' );
+    $arg3 = $this->get_arg( 'ARG3' );
+    $arg4 = $this->get_arg( 'ARG4' );
+
+    $task_list = app()->get_task_list();
+
+    switch ( $arg3 ) {
+
+      case 'jj';
+
+        foreach ( $task_list as $task ) {
+
+          echo $task->get_name() . "\n";
+
+        }
+
+        return;
+
+    }
+
+    $class = app()->get_class_name( [ $arg3 ] );
+
+    if ( class_exists( $class ) ) {
+
+      $task = app()->get_task( $class );
+
+      $task->complete( $arg1, $arg2, $arg3, $arg4 );
+
+      return;
+
+    }
+
+    $subtask_list = [];
+
+    foreach ( $task_list as $task ) {
+
+      $class = app()->get_class_name( [ $task->get_name(), $arg3 ] );
+
+      if ( class_exists( $class ) ) {
+
+        $subtask = app()->get_task( $class );
+
+        $subtask_list[] = $subtask;
+
+      }
+    }
+
+    if ( $subtask_list ) {
+
+      return;
+
+    }
 
   }
 }

@@ -16,6 +16,12 @@ class AppModule extends MudModuleApp {
   protected $category_to_task_list = [];
   protected $task_list = [];
 
+  protected array $parameter_map = [];
+  protected array $parameter_list = [];
+  protected array $sequential_parameter_list = [];
+  protected array $named_parameter_list = [];
+  protected array $flag_parameter_list = [];
+
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-12 jj5 - public functions...
@@ -45,6 +51,22 @@ class AppModule extends MudModuleApp {
 
   }
 
+  public function get_task_list() {
+
+    $result = [];
+
+    foreach ( $this->task_list as $task ) {
+
+      if ( $task->is_subtask() ) { continue; }
+
+      $result[] = $task;
+
+    }
+
+    return $result;
+
+  }
+
   public function find_task( array $args ) {
 
     $task_args = [];
@@ -57,7 +79,7 @@ class AppModule extends MudModuleApp {
 
       if ( class_exists( $class_name ) ) {
 
-        $task = new $class_name();
+        $task = $this->get_task( $class_name );
 
         $task->set_args( $task_args );
 
@@ -73,7 +95,7 @@ class AppModule extends MudModuleApp {
 
     mud_log_trace( "command not found: " . implode( ' ', $args ) );
 
-    $task = new jj_help();
+    $task = $this->get_task( jj_help::class );
 
     $task->set_args( $args );
 
@@ -114,13 +136,19 @@ class AppModule extends MudModuleApp {
 
   }
 
-  public function add_task( $class ) {
+  public function get_task( $class ) {
 
-    $this->get_task( $class );
+    return $this->class_to_task[ $class ] ?? null;
 
   }
 
-  public function get_task( $class, AppTask|null $parent = null ) {
+  public function add_task( $class ) {
+
+    $this->new_task( $class );
+
+  }
+
+  public function new_task( $class, AppTask|null $parent = null ) {
 
     if ( ! array_key_exists( $class, $this->class_to_task ) ) {
 
@@ -135,4 +163,84 @@ class AppModule extends MudModuleApp {
     return $this->class_to_task[ $class ];
 
   }
+
+  public function get_parameter( string $name ) {
+
+    return $this->parameter_map[ $name ] ?? null;
+
+  }
+
+  public function add_sequential_parameter(
+    string $name,
+    string $description,
+    AppParameterType $type = AppParameterType::String,
+    bool|null $is_optional = null,
+    bool $is_list = false
+  ) {
+
+    $index = count( $this->sequential_parameter_list );
+
+    if ( $is_optional === null ) { $is_optional = $index > 0; }
+
+    $parameter = new AppSequentialParameter(
+      $name,
+      $description,
+      $type,
+      $is_optional,
+      $is_list,
+      $index,
+    );
+
+    assert( ! isset( $this->parameter_map[ $name ] ) );
+
+    $this->parameter_map[ $name ] = $parameter;
+    $this->parameter_list[] = $parameter;
+    $this->sequential_parameter_list[] = $parameter;
+
+  }
+
+  public function add_named_parameter(
+    string $name,
+    string $description,
+    AppParameterType $type = AppParameterType::String,
+    bool $is_optional = true,
+  ) {
+
+    $parameter = new AppNamedParameter(
+      $name,
+      $description,
+      $type,
+      $is_optional,
+    );
+
+    assert( ! isset( $this->parameter_map[ $name ] ) );
+
+    $this->parameter_map[ $name ] = $parameter;
+    $this->parameter_list[] = $parameter;
+    $this->named_parameter_list[] = $parameter;
+
+  }
+
+  public function add_flag_parameter(
+    string $name,
+    string $description,
+  ) {
+
+    $param = new AppFlagParameter(
+      $name,
+      $description,
+      AppParameterType::Boolean,
+      $is_optional = true,
+      true,
+    );
+
+    assert( ! isset( $this->parameter_map[ $name ] ) );
+
+    $this->parameter_map[ $name ] = $param;
+    $this->parameter_list[] = $param;
+    $this->named_parameter_list[] = $param;
+    $this->flag_parameter_list[] = $param;
+
+  }
+
 }

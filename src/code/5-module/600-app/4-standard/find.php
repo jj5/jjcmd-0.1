@@ -23,10 +23,7 @@ class jj_find extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The search specification.',
-    );
+    $this->add_sequential_parameter( 'SPEC' );
 
   }
 

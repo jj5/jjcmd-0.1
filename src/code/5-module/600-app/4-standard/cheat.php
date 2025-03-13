@@ -21,13 +21,7 @@ class jj_cheat extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'ARG',
-      'The query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = false,
-    );
+    $this->add_sequential_parameter( 'SPEC' );
 
   }
 
@@ -53,7 +47,7 @@ class jj_cheat extends AppStandard {
 
   public function run() {
 
-    $query = addslashes( 'https://cheat.sh/' . urlencode( $this->get_arg( 'ARG' ) ) );
+    $query = addslashes( 'https://cheat.sh/' . urlencode( $this->get_arg( 'SPEC' ) ) );
 
     mud_stdout( 'curl ' . $query . "\n" );
 

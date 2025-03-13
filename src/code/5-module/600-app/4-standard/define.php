@@ -21,13 +21,7 @@ class jj_define extends AppStandard {
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The query.',
-      AppParameterType::String,
-      $is_optional = false,
-      $is_list = true,
-    );
+    $this->add_sequential_parameter( 'TEXT' );
 
   }
 
@@ -53,7 +47,7 @@ class jj_define extends AppStandard {
 
   public function run() {
 
-    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
+    $spec = implode( ' ', $this->get_arg( 'TEXT' ) );
 
     $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=definition&q=' . urlencode( $spec ) );
 

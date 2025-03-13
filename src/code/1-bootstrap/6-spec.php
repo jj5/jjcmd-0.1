@@ -14,6 +14,98 @@ require_once __DIR__ . '/5-module.php';
 
 (function() {
 
+  // 2025-03-14 jj5 - here we define all the parameters that can be used in the application...
+
+  // 2025-03-14 jj5 - these are the auto-complete args BASH will pass to us...
+
+  app()->add_sequential_parameter(
+    'ARG1',
+    'The 1st argument.',
+  );
+
+  app()->add_sequential_parameter(
+    'ARG2',
+    'The 2nd argument.',
+  );
+
+  app()->add_sequential_parameter(
+    'ARG3',
+    'The 3rd argument.',
+  );
+
+  app()->add_sequential_parameter(
+    'ARG4',
+    'The 4th argument.',
+  );
+
+  // 2025-03-14 jj5 - these are other parameters that can be used in the application...
+
+  app()->add_sequential_parameter(
+    'TASK',
+    'The task to process. Can be a simple task or a task and subtask.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = true,
+  );
+
+  app()->add_sequential_parameter(
+    'SUBTASK',
+    'The subtask to process.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
+  );
+
+  app()->add_sequential_parameter(
+    'ALIAS',
+    'The ALIAS to process.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
+  );
+
+  app()->add_sequential_parameter(
+    'SEARCH',
+    'The search specification.',
+    AppParameterType::String,
+    $is_optional = null,
+    $is_list = false,
+  );
+
+  app()->add_sequential_parameter(
+    'SPEC',
+    'The spec for the task.',
+    AppParameterType::String,
+    $is_optional = null,
+    $is_list = false,
+  );
+
+  app()->add_sequential_parameter(
+    'FILE',
+    'The FILE(s) to process.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = true,
+  );
+
+  app()->add_sequential_parameter(
+    'TEXT',
+    'The text to process.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = true,
+  );
+
+  app()->add_sequential_parameter(
+    'INFO',
+    'The name(s) of the info you want.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = true,
+  );
+
+
+
   // 2025-03-13 jj5 - here we define the main tasks...
 
   app()->add_task( jj_complete::class );

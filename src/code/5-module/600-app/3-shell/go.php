@@ -43,10 +43,7 @@ class jj_go extends AppShell {
 
     parent::__construct();
 
-    $this->add_sequential_parameter(
-      'SPEC',
-      'The search specification.',
-    );
+    $this->add_sequential_parameter( 'SEARCH' );
 
   }
 
@@ -57,7 +54,7 @@ class jj_go extends AppShell {
 
   public function run() {
 
-    $spec = $this->get_arg( 'SPEC' );
+    $spec = $this->get_arg( 'SEARCH' );
 
     $this->get_files( $list, $map );
 
