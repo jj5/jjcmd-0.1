@@ -51,7 +51,7 @@ class jj_cheat extends AppStandard {
 
     $query = escapeshellarg( 'https://cheat.sh/' . urlencode( $spec ) );
 
-    passthru( 'curl -s ' . $query );
+    passthru( 'curl -sS ' . $query );
 
   }
 }
