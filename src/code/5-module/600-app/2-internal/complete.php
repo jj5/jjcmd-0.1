@@ -21,6 +21,26 @@ class jj_complete extends AppInternal {
 
   protected function define_parameters() {
 
+    $this->add_sequential_parameter(
+      'ARG1',
+      'The 1st argument.',
+    );
+
+    $this->add_sequential_parameter(
+      'ARG2',
+      'The 2nd argument.',
+    );
+
+    $this->add_sequential_parameter(
+      'ARG3',
+      'The 3rd argument.',
+    );
+
+    $this->add_sequential_parameter(
+      'ARG4',
+      'The 4th argument.',
+    );
+
   }
 
   protected function define_options() {
