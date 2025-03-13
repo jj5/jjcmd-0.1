@@ -52,6 +52,24 @@ class jj_go extends AppShell {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    mud_log_trace( "complete", [ $arg1, $arg2, $arg3, $arg4 ] );
+
+    $this->get_files( $list, $map );
+
+    $keys = array_keys( $map );
+
+    foreach ( $keys as $item ) {
+
+      if ( strpos( $item, $arg2 ) === 0 ) {
+
+        mud_stdout( $item . "\n" );
+
+      }
+    }
+  }
+
   public function run() {
 
     $spec = $this->get_arg( 'SEARCH' );

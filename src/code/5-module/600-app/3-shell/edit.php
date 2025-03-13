@@ -53,6 +53,22 @@ class jj_edit extends AppShell {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    mud_log_trace( "complete", [ $arg1, $arg2, $arg3, $arg4 ] );
+
+    foreach ( $this->spec as $item ) {
+
+      $name = $item[ 'name' ];
+
+      if ( strpos( $name, $arg2 ) === 0 ) {
+
+        mud_stdout( $name . "\n" );
+
+      }
+    }
+  }
+
   public function run() {
 
     $name = $this->get_arg( 'ALIAS' );
