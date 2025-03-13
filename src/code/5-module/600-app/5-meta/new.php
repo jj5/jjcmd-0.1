@@ -28,6 +28,9 @@ class jj_new extends AppTaskGroup {
   protected function define_options() {
 
     $this->add_subtask( jj_bash_new::class );
+    $this->add_subtask( jj_html_new::class );
+    $this->add_subtask( jj_javascript_new::class );
+    $this->add_subtask( jj_php_new::class );
 
   }
 
