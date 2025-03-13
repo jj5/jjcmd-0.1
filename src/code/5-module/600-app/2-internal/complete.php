@@ -63,13 +63,15 @@ class jj_complete extends AppInternal {
 
       case 'jj';
 
+        $list = [];
+
         foreach ( $task_list as $task ) {
 
-          echo $task->get_name() . "\n";
+          $list[] = $task->get_name();
 
         }
 
-        return;
+        return $this->report( $list, $arg2 );
 
     }
 
@@ -79,9 +81,7 @@ class jj_complete extends AppInternal {
 
       $task = app()->get_task( $class );
 
-      $task->complete( $arg1, $arg2, $arg3, $arg4 );
-
-      return;
+      return $task->complete( $arg1, $arg2, $arg3, $arg4 );
 
     }
 
@@ -102,9 +102,26 @@ class jj_complete extends AppInternal {
 
     if ( $subtask_list ) {
 
-      return;
+      if ( count( $subtask_list ) === 1 ) {
+
+        return $subtask_list[ 0 ]->complete( $arg1, $arg2, $arg3, $arg4 );
+
+      }
+
+      // 2025-03-14 jj5 - TODO...
 
     }
+  }
 
+  protected function report( $list, $arg2 ) {
+
+    foreach ( $list as $item ) {
+
+      if ( strpos( $item, $arg2 ) === 0 ) {
+
+        echo $item . "\n";
+
+      }
+    }
   }
 }

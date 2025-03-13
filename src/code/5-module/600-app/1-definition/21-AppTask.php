@@ -71,6 +71,16 @@ abstract class AppTask {
 
     mud_log_trace( "complete", [ $arg1, $arg2, $arg3, $arg4 ] );
 
+    foreach ( $this->get_named_parameter_list() as $param ) {
+
+      $name = $param->get_name();
+
+      if ( strpos( $name, $arg2 ) === 0 ) {
+
+        echo $name . "\n";
+
+      }
+    }
   }
 
   public function process() {
