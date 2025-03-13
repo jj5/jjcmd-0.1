@@ -61,6 +61,14 @@ abstract class AppParameter {
     return $this->is_optional;
   }
 
+  public function get_default() {
+
+    // 2025-03-14 jj5 - this isn't used yet...
+
+    return null;
+
+  }
+
   public function parse( string $spec ) {
 
     $result = null;

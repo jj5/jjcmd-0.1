@@ -15,13 +15,13 @@ class jj_search extends AppStandard {
 
   protected function define_description() : string {
 
-    return "Searches the web for SPEC.";
+    return "Searches the web for TEXT.";
 
   }
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter( 'SPEC' );
+    $this->add_sequential_parameter( 'TEXT' );
 
   }
 
@@ -47,7 +47,7 @@ class jj_search extends AppStandard {
 
   public function run() {
 
-    $spec = implode( ' ', $this->get_arg( 'SPEC' ) );
+    $spec = implode( ' ', $this->get_arg( 'TEXT' ) );
 
     $query = escapeshellarg( 'https://duckduckgo.com/?atb=v320-1&ia=web&q=' . urlencode( $spec ) );
 

@@ -26,6 +26,12 @@ class jj_bash_args extends AppLanguage {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function run() {
+
+    $this->print();
+
+  }
+
   public function print() {
 ?>
 # read arg 1 or use empty string '' if not provided:

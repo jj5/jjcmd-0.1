@@ -21,21 +21,33 @@ require_once __DIR__ . '/5-module.php';
   app()->add_sequential_parameter(
     'ARG1',
     'The 1st argument.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
   );
 
   app()->add_sequential_parameter(
     'ARG2',
     'The 2nd argument.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
   );
 
   app()->add_sequential_parameter(
     'ARG3',
     'The 3rd argument.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
   );
 
   app()->add_sequential_parameter(
     'ARG4',
     'The 4th argument.',
+    AppParameterType::String,
+    $is_optional = true,
+    $is_list = false,
   );
 
   // 2025-03-14 jj5 - these are other parameters that can be used in the application...
@@ -112,6 +124,16 @@ require_once __DIR__ . '/5-module.php';
     $is_list = false,
   );
 
+  // 2025-03-14 jj5 - these are named parameters that are available to any task in the application...
+
+  app()->add_named_parameter(
+    '--title',
+    'The document TITLE.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
+  );
+
   // 2025-03-14 jj5 - these are the flags that can be used by any task in the application...
 
   app()->add_flag_parameter(
@@ -142,6 +164,7 @@ require_once __DIR__ . '/5-module.php';
   app()->add_task( jj_host::class );
 
   app()->add_task( jj_bash::class );
+  app()->add_task( jj_html::class );
   app()->add_task( jj_new::class );
 
   app()->add_task( jj_help::class );

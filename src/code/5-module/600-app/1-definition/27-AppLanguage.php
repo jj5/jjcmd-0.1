@@ -7,13 +7,4 @@ abstract class AppLanguage extends AppSubtask {
     return AppTaskCategory::Languages;
 
   }
-
-  public function run() {
-
-    $this->print();
-
-  }
-
-  protected abstract function print();
-
 }

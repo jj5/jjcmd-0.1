@@ -26,6 +26,12 @@ class jj_bash_for extends AppLanguage {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function run() {
+
+    $this->print();
+
+  }
+
   public function print() {
 ?>
 local list=( 'A', 'B', 'C' );

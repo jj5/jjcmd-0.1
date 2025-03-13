@@ -222,6 +222,24 @@ abstract class AppTask {
 
     }
 
+    $param = $this->parameter_map[ $name ] ?? null;
+
+    if ( $param ) {
+
+      if ( $param->is_optional() ) {
+
+        return $param->get_default();
+
+      }
+
+      mud_stderr( "Enter a value for $name: " );
+
+      $input = trim( fgets( STDIN ) );
+
+      return $input;
+
+    }
+
     return null;
 
   }
@@ -352,11 +370,22 @@ abstract class AppTask {
     // as allowing dashes to be used in the name and then converting them to underscores. For now we just use the class
     // name.
 
+    // 2025-03-14 jj5 - WARNING: this won't work for subtasks in a task with a name that contains underscores... but
+    // that's not a problem presently...
+
     $class = $this->reflection_class->getShortName();
 
     $parts = explode( '_', $class );
 
-    $name = array_pop( $parts );
+    array_shift( $parts );
+
+    if ( $this->is_subtask() ) {
+
+      array_shift( $parts );
+
+    }
+
+    $name = implode( '-', $parts );
 
     return $name;
 

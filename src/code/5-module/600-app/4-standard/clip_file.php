@@ -45,6 +45,12 @@ class jj_clip_file extends AppStandard {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    return $this->complete_file( $arg2 );
+
+  }
+
   public function process() {
 
     $this->capture( $trim = false );

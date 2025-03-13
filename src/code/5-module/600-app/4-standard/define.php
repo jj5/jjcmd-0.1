@@ -49,9 +49,9 @@ class jj_define extends AppStandard {
 
     $spec = implode( ' ', $this->get_arg( 'TEXT' ) );
 
-    $query = addslashes( 'https://duckduckgo.com/?atb=v320-1&ia=definition&q=' . urlencode( $spec ) );
+    $query = escapeshellarg( 'https://duckduckgo.com/?atb=v320-1&ia=definition&q=define+' . urlencode( $spec ) );
 
-    mud_stdout( 'firefox ' . $query . "\n" );
+    exec( 'firefox ' . $query );
 
   }
 }

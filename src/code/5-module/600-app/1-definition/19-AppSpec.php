@@ -82,15 +82,29 @@ trait AppSpec {
 
   protected function add_named_parameter(
     string $name,
-    string $description,
-    AppParameterType $type = AppParameterType::String,
-    bool $is_optional = true,
+    bool|null $is_optional = null,
   ) {
+
+    $template = app()->get_parameter( $name );
+
+    if ( $is_optional === null ) {
+
+      if ( $template->is_optional() === null ) {
+
+        $is_optional = true;
+
+      }
+      else {
+
+        $is_optional = true;
+
+      }
+    }
 
     $parameter = new AppNamedParameter(
       $name,
-      $description,
-      $type,
+      $template->get_description(),
+      $template->get_type(),
       $is_optional,
     );
 
