@@ -74,6 +74,54 @@ class jj_go extends AppShell {
 
     $spec = $this->get_arg( 'SEARCH' );
 
+    if ( $spec === null ) {
+
+      return $this->print_cache();
+
+    }
+
+    $path = app()->get_cache( $spec );
+
+    if ( ! $path ) {
+
+      $path = $this->get_path( $spec );
+
+    }
+
+    if ( $path ) {
+
+      app()->set_cache( $spec, $path );
+
+      mud_stdout( "$path\n" );
+
+    }
+    else {
+
+      mud_stderr( "No items found for spec '$spec'.\n" );
+
+      exit( 1 );
+
+    }
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-16 jj5 - protected functions...
+  //
+
+  protected function print_cache() {
+
+    $cache = app()->get_cache( null, $data );
+
+    foreach ( $data[ 'cache' ] as $spec => $path ) {
+
+      mud_stderr( "$spec: $path\n" );
+
+    }
+  }
+
+  protected function get_path( string $spec ) {
+
     $this->get_files( $list, $map );
 
     $keys = array_keys( $map );
@@ -88,9 +136,7 @@ class jj_go extends AppShell {
       //
       if ( $key === $spec ) {
 
-        mud_stdout( $map[ $key ][ 0 ]->path . "\n" );
-
-        return;
+        return $map[ $key ][ 0 ]->path;
 
       }
 
@@ -98,17 +144,9 @@ class jj_go extends AppShell {
 
     }
 
-    if ( count( $match ) === 1 ) {
-
-      mud_stdout( $match[ 0 ]->path . "\n" );
-
-      return;
-
-    }
-
     if ( count( $match ) === 0 ) {
 
-      mud_stderr( "No items found for spec '$spec'.\n" );
+      return null;
 
     }
 
@@ -118,11 +156,9 @@ class jj_go extends AppShell {
 
     }
 
-    // 2024-11-05 jj5 - print the last match...
+    // 2025-03-16 jj5 - matches will be sorted by date with more recent first, so return the first one...
     //
-    mud_stdout( $item->path . "\n" );
-
-    exit( 1 );
+    return $match[ 0 ]->path;
 
   }
 }

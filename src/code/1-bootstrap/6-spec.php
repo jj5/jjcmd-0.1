@@ -164,6 +164,8 @@ require_once __DIR__ . '/5-module.php';
   app()->add_task( jj_clip_file::class );
   app()->add_task( jj_host::class );
 
+  app()->add_task( jj_clear::class );
+
   app()->add_task( jj_bash::class );
   app()->add_task( jj_html::class );
   app()->add_task( jj_javascript::class );

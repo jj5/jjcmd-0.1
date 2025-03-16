@@ -1,5 +1,11 @@
 <?php
 
+define( 'APP_CACHE_DIR', '/var/state/jjcmd' );
+define( 'APP_CACHE_FILE', 'jjcmd.json' );
+define( 'APP_CACHE_PATH', APP_CACHE_DIR . '/' . APP_CACHE_FILE );
+
+define( 'APP_CACHE_ATTEMPT_LIMIT', 50 );
+define( 'APP_CACHE_ATTEMPT_DELAY', 100_000 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 2025-03-09 jj5 - class definition...
@@ -27,6 +33,174 @@ class AppModule extends MudModuleApp {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function get_cache( $spec, &$data = null ) {
+
+    if ( ! file_exists( APP_CACHE_PATH ) ) { return null; }
+
+    $handle = self::fopen( APP_CACHE_PATH, 'r' );
+
+    self::flock( $handle, LOCK_SH );
+
+    $json = self::stream_get_contents( $handle );
+
+    self::flock( $handle, LOCK_UN );
+
+    self::fclose( $handle );
+
+    $data = json_decode( $json, true );
+
+    $path = $data[ 'cache' ][ $spec ] ?? null;
+
+    return $path;
+
+  }
+
+  public function clear_cache( $spec ) {
+
+    return $this->set_cache( $spec, null );
+
+  }
+
+  public function set_cache( $spec, $path ) {
+
+    if ( ! is_dir( APP_CACHE_DIR ) ) { return false; }
+
+    $handle = self::fopen( APP_CACHE_PATH, 'c+' );
+
+    self::flock( $handle, LOCK_EX );
+
+    $contents = self::stream_get_contents( $handle );
+
+    $data = json_decode( $contents, true );
+
+    if ( ! $data ) { $data = []; }
+
+    if ( ! isset( $data[ 'cache' ] ) ) { $data[ 'cache' ] = []; }
+
+    unset( $data[ 'cache' ][ $spec ] );
+
+    if ( $path ) {
+
+      $data[ 'cache' ][ $spec ] = $path;
+
+    }
+
+    $json = json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+
+    self::ftruncate( $handle, 0 );
+
+    self::rewind( $handle );
+
+    self::fwrite( $handle, $json );
+
+    self::fflush( $handle );
+
+    self::flock( $handle, LOCK_UN );
+
+    self::fclose( $handle );
+
+    return true;
+
+  }
+
+  protected static function fopen( string $path, string $mode ) {
+
+    $handle = self::attempt( __FUNCTION__, function() use ( $path, $mode ) {
+
+      return fopen( $path, $mode );
+
+    } );
+
+    return $handle;
+
+  }
+
+  protected static function flock( $handle, int $operation ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle, $operation ) {
+
+      return flock( $handle, $operation );
+
+    } );
+
+  }
+
+  protected static function stream_get_contents( $handle, ?int $length = null, int $offset = -1 ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle, $length, $offset ) {
+
+      return stream_get_contents( $handle, $length, $offset );
+
+    } );
+
+  }
+
+  protected static function ftruncate( $handle, int $size ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle, $size ) {
+
+      return ftruncate( $handle, $size );
+
+    } );
+
+  }
+
+  protected static function rewind( $handle ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle ) {
+
+      return rewind( $handle );
+
+    } );
+
+  }
+
+  protected static function fwrite( $handle, string $data, ?int $length = null ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle, $data, $length ) {
+
+      return fwrite( $handle, $data, $length );
+
+    } );
+
+  }
+
+  protected static function fflush( $handle ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle ) {
+
+      return fflush( $handle );
+
+    } );
+
+  }
+
+  protected static function fclose( $handle ) {
+
+    return self::attempt( __FUNCTION__, function() use ( $handle ) {
+
+      return fclose( $handle );
+
+    } );
+
+  }
+
+  protected static function attempt( $function, $callback ) {
+
+    for ( $attempt = 1; $attempt < APP_CACHE_ATTEMPT_LIMIT; $attempt++ ) {
+
+      $result = $callback();
+
+      if ( $result !== false ) { return $result; }
+
+      usleep( APP_CACHE_ATTEMPT_DELAY );
+
+    }
+
+    mud_fail( "failed to '$function' after $attempt attempts." );
+
+  }
+
   public function run( $argv ) {
 
     $args = $argv;
@@ -37,7 +211,7 @@ class AppModule extends MudModuleApp {
     mud_log_trace( 'script..', $script );
     mud_log_trace( 'args....', $args );
 
-    $task = $this->find_task( $args );
+    $task = $args ? $this->find_task( $args ) : $this->get_help_task();
 
     if ( $task ) {
 
@@ -94,6 +268,12 @@ class AppModule extends MudModuleApp {
     }
 
     mud_log_trace( "command not found: " . implode( ' ', $args ) );
+
+    return null;
+
+  }
+
+  public function get_help_task( array $args = [] ) {
 
     $task = $this->get_task( jj_help::class );
 

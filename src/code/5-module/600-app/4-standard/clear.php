@@ -1,6 +1,6 @@
 <?php
 
-class jj_get_type extends AppInternal {
+class jj_clear extends AppStandard {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,20 +9,19 @@ class jj_get_type extends AppInternal {
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Internal;
+    return AppTaskCategory::Tools;
 
   }
 
   protected function define_description() : string {
 
-    return "This is an internal task to facilitate shell integration. Tasks of type 'shell' are able to manipulate " .
-      "the shell environment in some way, such as by changing the current working directory or opening an editor.";
+    return "Clears an item from the cache.";
 
   }
 
   protected function define_parameters() {
 
-    $this->add_sequential_parameter( 'TASK' );
+    $this->add_sequential_parameter( 'SEARCH' );
 
   }
 
@@ -48,9 +47,9 @@ class jj_get_type extends AppInternal {
 
   public function run() {
 
-    $task = $this->args ? app_find_task( $this->args ) : app()->get_help_task();
+    $spec = $this->get_arg( 'SEARCH' );
 
-    echo $task->get_type()->value . "\n";
+    app()->clear_cache( $spec );
 
   }
 }

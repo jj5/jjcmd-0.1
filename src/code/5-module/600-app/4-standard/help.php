@@ -53,7 +53,8 @@ class jj_help extends AppStandard {
 
       $this->print_help_for_task( $args );
 
-    } else {
+    }
+    else {
 
       $this->print_help_global();
 
@@ -70,6 +71,8 @@ class jj_help extends AppStandard {
 
       foreach ( $task_list as $task ) {
 
+        if ( $task->is_subtask() ) { continue; }
+
         echo "* jj " . $task->get_name() . "\n";
 
       }
@@ -83,7 +86,17 @@ class jj_help extends AppStandard {
 
     $task = app_find_task( $args );
 
-    $task->print_help( $args );
+    if ( $task ) {
 
+      $task->print_help( $args );
+
+    }
+    else {
+
+      mud_stderr( "could not find task: " . implode( ' ', $args ) . "\n" );
+
+      exit( 1 );
+
+    }
   }
 }
