@@ -94,7 +94,7 @@ class jj_find extends AppStandard {
 
       mud_stdout( $match[ 0 ]->path );
 
-      mud_stderr( "\n" );
+      mud_stdout( "\n" );
 
       return;
 
@@ -114,11 +114,9 @@ class jj_find extends AppStandard {
 
     // 2024-11-05 jj5 - print the last match...
     //
-    mud_stdout( $item->path );
+    //mud_stdout( $item->path );
 
-    mud_stderr( "\n" );
-
-    exit( 1 );
+    //mud_stderr( "\n" );
 
   }
 }

@@ -53,8 +53,11 @@ class jj_clear extends AppStandard {
 
     foreach ( $keys as $key ) {
 
-      mud_stdout( "$key\n" );
+      if ( strpos( $key, $arg2 ) === 0 ) {
 
+        mud_stdout( "$key\n" );
+
+      }
     }
   }
 

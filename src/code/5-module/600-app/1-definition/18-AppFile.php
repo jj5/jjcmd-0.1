@@ -9,19 +9,22 @@ trait AppFile {
 
   protected function get_files( &$list, &$map ) {
 
+    //$list_inner = [];
+    //$map_inner = [];
+
     $dir = getcwd();
 
     mud_chdir( '/home/jj5' );
 
     try {
 
-      $this->collect( 'repo', $list, $map, function( $name ) {
+      $this->collect( 'repo', $list_inner, function( $name ) {
 
         return is_dir( '.svn' ) || is_dir( '.git' );
 
       });
 
-      $this->collect( 'desktop', $list, $map, function( $name ) {
+      $this->collect( 'desktop', $list_inner, function( $name ) {
 
         return is_dir( '.svn' ) || is_dir( '.git' );
 
@@ -33,9 +36,28 @@ trait AppFile {
       mud_chdir( $dir );
 
     }
+
+    usort( $list_inner, function( $a, $b ) {
+
+      return $b->get_timestamp() <=> $a->get_timestamp();
+
+    });
+
+    $list = [];
+    $map = [];
+
+    foreach ( $list_inner as $item ) {
+
+      $list[] = $item;
+      $map[ $item->name ][] = $item;
+
+    }
+
+    return $list;
+
   }
 
-  protected function collect( $path, &$list, &$map, $match ) {
+  protected function collect( $path, &$list, $match ) {
 
     static $depth = 0;
 
@@ -54,14 +76,13 @@ trait AppFile {
       $item = new AppItem( $path, getcwd() );
 
       $list[] = $item;
-      $map[ $path ][] = $item;
 
     }
     else {
 
       foreach ( scandir( '.' ) as $file ) {
 
-        $this->collect( $file, $list, $map, $match );
+        $this->collect( $file, $list, $match );
 
       }
     }

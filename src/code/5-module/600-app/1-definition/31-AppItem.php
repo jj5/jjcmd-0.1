@@ -29,4 +29,15 @@ class AppItem {
     if ( $this->is_git ) { $this->tag_list[] = 'git'; }
 
   }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-17 jj5 - public functions...
+  //
+
+  public function get_timestamp() {
+
+    return filemtime( $this->path );
+
+  }
 }
