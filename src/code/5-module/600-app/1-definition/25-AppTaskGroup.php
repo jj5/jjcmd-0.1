@@ -4,6 +4,17 @@ abstract class AppTaskGroup extends AppTask {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-17 jj5 - definitions...
+  //
+
+  protected function define_parameters() {
+
+    $this->add_sequential_parameter( 'SUBTASK' );
+
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // 2025-03-13 jj5 - fields...
   //
 
@@ -27,14 +38,22 @@ abstract class AppTaskGroup extends AppTask {
 
   public function complete( $arg1, $arg2, $arg3, $arg4 ) {
 
-    //mud_log_trace( "complete", [ $arg1, $arg2, $arg3, $arg4 ] );
+    mud_log_trace( __FUNCTION__, [ $arg1, $arg2, $arg3, $arg4 ] );
 
     $subtask_list = $this->get_subtask_list();
 
-    foreach ( $subtask_list as $subtask ) {
+    if ( $subtask_list ) {
 
-      echo $subtask->get_name() . "\n";
+      foreach ( $subtask_list as $subtask ) {
 
+        $name = $subtask->get_name();
+
+        if ( strpos( $name, $arg2 ) === 0 ) {
+
+          echo $name . "\n";
+
+        }
+      }
     }
   }
 
@@ -42,6 +61,47 @@ abstract class AppTaskGroup extends AppTask {
 
     return $this->subtask_list;
 
+  }
+
+  public function run() {
+
+    $spec = $this->get_arg( 'SUBTASK' );
+
+    $class = get_called_class() . '_' . $spec;
+
+    if ( class_exists( $class ) ) {
+
+      $subtask = app()->get_task( $class );
+
+      $subtask->set_args( $this->args );
+
+      $subtask->run();
+
+    }
+    else {
+
+      $this->print_help( [] );
+
+    }
+  }
+
+  public function print_help( array $args ) {
+
+    $subtask_list = $this->get_subtask_list();
+
+    if ( $subtask_list ) {
+
+      foreach ( $subtask_list as $subtask ) {
+
+        echo '* jj bash ' . $subtask->get_name() . "\n";
+
+      }
+    }
+    else {
+
+      parent::print_help( $args );
+
+    }
   }
 
 

@@ -16,9 +16,9 @@ abstract class AppSubtask extends AppTask {
 
   public function __construct( AppTask $parent_task ) {
 
-    parent::__construct();
-
     $this->parent_task = $parent_task;
+
+    parent::__construct();
 
   }
 

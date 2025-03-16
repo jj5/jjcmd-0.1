@@ -1,27 +1,27 @@
 <?php
 
-class jj_php extends AppTaskGroup {
+class jj_git extends AppTaskGroup {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 2025-03-12 jj5 - definitions...
+  // 2025-03-17 jj5 - definitions...
   //
 
   protected function define_category() : AppTaskCategory {
 
-    return AppTaskCategory::Languages;
+    return AppTaskCategory::Tools;
 
   }
 
   protected function define_description() : string {
 
-    return "Generates PHP code.";
+    return "Operates on git repositories.";
 
   }
 
   protected function define_options() {
 
-    $this->add_subtask( jj_php_new::class );
+    $this->add_subtask( jj_git_create::class );
 
   }
 }

@@ -93,6 +93,14 @@ require_once __DIR__ . '/5-module.php';
   );
 
   app()->add_sequential_parameter(
+    'NAME',
+    'The name to use.',
+    AppParameterType::String,
+    $is_optional = null,
+    $is_list = false,
+  );
+
+  app()->add_sequential_parameter(
     'FILE',
     'The FILE(s) to process.',
     AppParameterType::String,
@@ -165,6 +173,7 @@ require_once __DIR__ . '/5-module.php';
   app()->add_task( jj_host::class );
 
   app()->add_task( jj_clear::class );
+  app()->add_task( jj_git::class );
 
   app()->add_task( jj_bash::class );
   app()->add_task( jj_html::class );
