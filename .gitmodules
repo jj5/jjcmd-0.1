@@ -1,3 +1,4 @@
 [submodule "ext/mudball"]
 	path = ext/mudball
-	url = git@github.com:jj5/mudball-0.6.git
+#	url = git@github.com:jj5/mudball-0.6.git
+	url = https://github.com/jj5/mudball-0.6.git
