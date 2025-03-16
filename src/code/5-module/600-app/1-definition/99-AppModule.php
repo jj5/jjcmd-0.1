@@ -4,9 +4,6 @@ define( 'APP_CACHE_DIR', '/var/state/jjcmd' );
 define( 'APP_CACHE_FILE', 'jjcmd.json' );
 define( 'APP_CACHE_PATH', APP_CACHE_DIR . '/' . APP_CACHE_FILE );
 
-define( 'APP_CACHE_ATTEMPT_LIMIT', 50 );
-define( 'APP_CACHE_ATTEMPT_DELAY', 100_000 );
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 2025-03-09 jj5 - class definition...
 //
@@ -27,6 +24,13 @@ class AppModule extends MudModuleApp {
   protected array $sequential_parameter_list = [];
   protected array $named_parameter_list = [];
   protected array $flag_parameter_list = [];
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // 2025-03-16 jj5 - traits...
+  //
+
+  use MudMixinFilesystemProtected;
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,106 +104,6 @@ class AppModule extends MudModuleApp {
     self::fclose( $handle );
 
     return true;
-
-  }
-
-  protected static function fopen( string $path, string $mode ) {
-
-    $handle = self::attempt( __FUNCTION__, function() use ( $path, $mode ) {
-
-      return fopen( $path, $mode );
-
-    } );
-
-    return $handle;
-
-  }
-
-  protected static function flock( $handle, int $operation ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle, $operation ) {
-
-      return flock( $handle, $operation );
-
-    } );
-
-  }
-
-  protected static function stream_get_contents( $handle, ?int $length = null, int $offset = -1 ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle, $length, $offset ) {
-
-      return stream_get_contents( $handle, $length, $offset );
-
-    } );
-
-  }
-
-  protected static function ftruncate( $handle, int $size ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle, $size ) {
-
-      return ftruncate( $handle, $size );
-
-    } );
-
-  }
-
-  protected static function rewind( $handle ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle ) {
-
-      return rewind( $handle );
-
-    } );
-
-  }
-
-  protected static function fwrite( $handle, string $data, ?int $length = null ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle, $data, $length ) {
-
-      return fwrite( $handle, $data, $length );
-
-    } );
-
-  }
-
-  protected static function fflush( $handle ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle ) {
-
-      return fflush( $handle );
-
-    } );
-
-  }
-
-  protected static function fclose( $handle ) {
-
-    return self::attempt( __FUNCTION__, function() use ( $handle ) {
-
-      return fclose( $handle );
-
-    } );
-
-  }
-
-  protected static function attempt( $function, $callback ) {
-
-    for ( $attempt = 1; $attempt < APP_CACHE_ATTEMPT_LIMIT; $attempt++ ) {
-
-      $result = $callback();
-
-      if ( $result !== false ) { return $result; }
-
-      usleep( APP_CACHE_ATTEMPT_DELAY );
-
-      mud_log_4_warning( "failed to '$function', attempt $attempt." );
-
-    }
-
-    mud_fail( "failed to '$function' after $attempt attempts." );
 
   }
 
