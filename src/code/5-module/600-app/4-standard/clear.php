@@ -45,6 +45,19 @@ class jj_clear extends AppStandard {
   // 2025-03-12 jj5 - public functions...
   //
 
+  public function complete( $arg1, $arg2, $arg3, $arg4 ) {
+
+    app()->get_cache( null, $data );
+
+    $keys = array_keys( $data[ 'cache' ] );
+
+    foreach ( $keys as $key ) {
+
+      mud_stdout( "$key\n" );
+
+    }
+  }
+
   public function run() {
 
     $spec = $this->get_arg( 'SEARCH' );
