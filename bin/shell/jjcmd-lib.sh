@@ -1,6 +1,14 @@
 #!/bin/bash
 
-JJCMD_PATH="$( command -v jjcmd.sh )";
+if [ -x "$JJCMD_DIR_BIN/jjcmd.sh" ]; then
+
+  JJCMD_PATH="$JJCMD_DIR_BIN/jjcmd.sh";
+
+else
+
+  JJCMD_PATH="$( command -v jjcmd.sh )";
+
+fi;
 
 jj() {
 
