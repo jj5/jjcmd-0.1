@@ -14,6 +14,11 @@ function app_host_cli( $argv ) {
       mud_log_init_file( CFG_LOG_FILE, MUD_LOG_LEVEL_7_DEBUG );
 
     }
+    else {
+
+      mud_log_init_syslog();
+
+    }
 
     main( $argv );
 

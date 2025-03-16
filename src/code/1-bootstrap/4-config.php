@@ -21,7 +21,7 @@ if ( file_exists( JJCMD_CONFIG_PATH ) ) {
 }
 else {
 
-  error_log( "missing config file: " . JJCMD_CONFIG_PATH );
+  //error_log( "missing config file: " . JJCMD_CONFIG_PATH );
 
 }
 
