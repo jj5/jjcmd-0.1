@@ -22,6 +22,7 @@ class jj_git extends AppTaskGroup {
   protected function define_options() {
 
     $this->add_subtask( jj_git_create::class );
+    $this->add_subtask( jj_git_create_bare::class );
 
   }
 }
