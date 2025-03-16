@@ -195,6 +195,8 @@ class AppModule extends MudModuleApp {
 
       usleep( APP_CACHE_ATTEMPT_DELAY );
 
+      mud_log_4_warning( "failed to '$function', attempt $attempt." );
+
     }
 
     mud_fail( "failed to '$function' after $attempt attempts." );
