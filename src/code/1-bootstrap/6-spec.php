@@ -156,6 +156,7 @@ require_once __DIR__ . '/5-module.php';
 
   app()->add_task( jj_edit::class );
   app()->add_task( jj_go::class );
+  app()->add_task( jj_bin::class );
 
   app()->add_task( jj_find::class );
   app()->add_task( jj_name::class );
