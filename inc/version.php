@@ -6,16 +6,16 @@
 define( 'JJCMD_NAME', 'Command-Line Tooling for Jay Jay' );
 define( 'JJCMD_CODE', 'jjcmd' );
 
-//define( 'JJCMD_VERSION', '0.1.121' );
+//define( 'JJCMD_VERSION', '0.1.123' );
 define( 'JJCMD_VERSION_MAJOR', 0 );
 define( 'JJCMD_VERSION_MINOR', 1 );
-define( 'JJCMD_VERSION_PATCH', 121 );
+define( 'JJCMD_VERSION_PATCH', 123 );
 
 define(
   'JJCMD_SVN_DATE',
-  '$Date: 2025-03-26 00:06:51 +1100 (Wed, 26 Mar 2025) $'
+  '$Date: 2025-03-26 00:23:28 +1100 (Wed, 26 Mar 2025) $'
 );
-define( 'JJCMD_SVN_REVISION', '$Revision: 34359723 $' );
+define( 'JJCMD_SVN_REVISION', '$Revision: 228229332 $' );
 define( 'JJCMD_SVN_AUTHOR', '$Author: jj5 $' );
 
-define( 'JJCMD_GIT_DATE', '2025-03-26 00:06:51 +1100 (Wed, 26 Mar 2025)' );
+define( 'JJCMD_GIT_DATE', '2025-03-26 00:23:28 +1100 (Wed, 26 Mar 2025)' );
