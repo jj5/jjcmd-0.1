@@ -208,7 +208,7 @@ abstract class AppTask {
 
   }
 
-  public function get_arg( $name ) {
+  public function get_arg( $name, $default = null ) {
 
     if ( array_key_exists( $name, $this->named_arg_map ) ) {
 
@@ -228,7 +228,7 @@ abstract class AppTask {
 
       if ( $param->is_optional() ) {
 
-        return $param->get_default();
+        return $param->get_default( $default );
 
       }
 

@@ -142,6 +142,22 @@ require_once __DIR__ . '/5-module.php';
     $is_list = false,
   );
 
+  app()->add_named_parameter(
+    '--code',
+    'The project code.',
+    AppParameterType::String,
+    $is_optional = false,
+    $is_list = false,
+  );
+
+  app()->add_named_parameter(
+    '--name',
+    'The project name.',
+    AppParameterType::String,
+    $is_optional = true,
+    $is_list = false,
+  );
+
   // 2025-03-14 jj5 - these are the flags that can be used by any task in the application...
 
   app()->add_flag_parameter(
@@ -175,6 +191,7 @@ require_once __DIR__ . '/5-module.php';
 
   app()->add_task( jj_clear::class );
   app()->add_task( jj_git::class );
+  app()->add_task( jj_mudball::class );
 
   app()->add_task( jj_bash::class );
   app()->add_task( jj_html::class );

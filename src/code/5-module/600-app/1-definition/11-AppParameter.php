@@ -61,11 +61,12 @@ abstract class AppParameter {
     return $this->is_optional;
   }
 
-  public function get_default() {
+  public function get_default( $default = null ) {
 
-    // 2025-03-14 jj5 - this isn't used yet...
+    // 2025-03-25 jj5 - NOTE: this might work differently in future but for now we just return the override value. In
+    // future we might want to return a global default value if the override is null.
 
-    return null;
+    return $default;
 
   }
 

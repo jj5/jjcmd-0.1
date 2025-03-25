@@ -1,6 +1,6 @@
 <?php
 
-class jj_git_add_ext extends AppSubtask {
+class jj_mudball_add_ext extends AppSubtask {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,13 +15,11 @@ class jj_git_add_ext extends AppSubtask {
 
   protected function define_description() : string {
 
-    return "Adds a submodule to an existing git repo.";
+    return "Adds a 'mudball' submodule to an existing git repo.";
 
   }
 
   protected function define_parameters() {
-
-    $this->add_sequential_parameter( 'SPEC', $is_optional = false );
 
   }
 
@@ -36,7 +34,7 @@ class jj_git_add_ext extends AppSubtask {
 
   public function run() {
 
-    $spec = $this->get_arg( 'SPEC' );
+    $spec = 'mudball';
 
     $url = APP_GIT_SUBMODULE_MAP[ $spec ] ?? null;
     $path = "ext/$spec";
