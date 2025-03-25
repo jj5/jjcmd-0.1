@@ -85,6 +85,9 @@ class jj_mudball_add_config extends AppSubtask {
     $result = <<<CODE
 <?php
 
+define( 'CFG_LOG_FILE', '/home/jj5/desktop/trace.log');
+define( 'CFG_PCLOG_API', 'http://localhost/log/api' );
+
 CODE;
 
     return $result;
@@ -95,6 +98,11 @@ CODE;
 
     $result = <<<CODE
 <?php
+
+define( 'DEBUG', true );
+define( 'DEV', true );
+define( 'BETA', false );
+define( 'PROD', false );
 
 CODE;
 
