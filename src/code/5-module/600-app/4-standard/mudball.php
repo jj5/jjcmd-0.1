@@ -23,6 +23,7 @@ class jj_mudball extends AppTaskGroup {
 
     $this->add_subtask( jj_mudball_add_ext::class );
     $this->add_subtask( jj_mudball_add_inc::class );
+    $this->add_subtask( jj_mudball_add_config::class );
 
   }
 }
