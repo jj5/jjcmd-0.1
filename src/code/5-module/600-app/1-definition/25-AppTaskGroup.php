@@ -93,7 +93,7 @@ abstract class AppTaskGroup extends AppTask {
 
       foreach ( $subtask_list as $subtask ) {
 
-        echo '* jj bash ' . $subtask->get_name() . "\n";
+        echo '* jj ' . $this->get_name() . ' ' . $subtask->get_name() . "\n";
 
       }
     }
