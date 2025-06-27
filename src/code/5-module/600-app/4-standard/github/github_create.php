@@ -138,6 +138,8 @@ class jj_github_create extends AppSubtask {
 
     }
 
+    shell_exec( "git remote set-url origin git@github.com:jj5/$name.git" );
+
     echo "created repository: $name\n";
     echo "working copy: $working_copy\n";
     echo "to change dir: jj go new\n";
