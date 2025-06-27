@@ -49,6 +49,10 @@ class jj_help extends AppStandard {
 
     $args = $this->get_args();
 
+    $this->print_version();
+
+    echo "\n";
+
     if ( count( $args ) > 0 ) {
 
       $this->print_help_for_task( $args );

@@ -191,6 +191,7 @@ require_once __DIR__ . '/5-module.php';
 
   app()->add_task( jj_clear::class );
   app()->add_task( jj_git::class );
+  app()->add_task( jj_github::class );
   app()->add_task( jj_mudball::class );
 
   app()->add_task( jj_bash::class );
@@ -200,5 +201,6 @@ require_once __DIR__ . '/5-module.php';
   app()->add_task( jj_new::class );
 
   app()->add_task( jj_help::class );
+  app()->add_task( jj_version::class );
 
 })();

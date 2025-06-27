@@ -89,4 +89,10 @@ abstract class AppStandard extends AppTask {
 
     }
   }
+
+  public function print_version() {
+
+    echo APP_SLUG . ": " . APP_BASE_DIR . "\n";
+
+  }
 }

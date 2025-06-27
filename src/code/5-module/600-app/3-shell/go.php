@@ -76,8 +76,30 @@ class jj_go extends AppShell {
 
     if ( $spec === null ) {
 
-      return $this->print_cache();
+      return $this->print_options();
 
+    }
+
+    if ( $spec === 'new' ) {
+
+      $new_path = $this->get_new_path();
+
+      //mud_stderr( "new: $new_path\n" );
+
+      if ( is_dir( $new_path ) ) {
+
+        mud_stdout( "$new_path\n" );
+
+        exit( 0 );
+
+      }
+      else {
+
+        mud_stderr( "missing path: $new_path\n" );
+
+        exit( 1 );
+
+      }
     }
 
     $path = app()->get_cache( $spec );
@@ -94,10 +116,12 @@ class jj_go extends AppShell {
 
       mud_stdout( "$path\n" );
 
+      exit( 0 );
+
     }
     else {
 
-      mud_stderr( "No items found for spec '$spec'.\n" );
+      mud_stderr( "no items found for spec: $spec\n" );
 
       exit( 1 );
 
@@ -109,6 +133,20 @@ class jj_go extends AppShell {
   // 2025-03-16 jj5 - protected functions...
   //
 
+  protected function print_options() {
+
+    $new_path = $this->get_new_path();
+
+    if ( $new_path ) {
+
+      mud_stderr( "new: $new_path\n" );
+
+    }
+
+    $this->print_cache();
+
+  }
+
   protected function print_cache() {
 
     $cache = app()->get_cache( null, $data );
@@ -118,6 +156,35 @@ class jj_go extends AppShell {
       mud_stderr( "$spec: $path\n" );
 
     }
+  }
+
+  protected function get_new_path() : ?string {
+
+    $home_dir = getenv( 'HOME' );
+
+    if ( ! is_dir( $home_dir ) ) {
+
+      mud_fail( "missing home directory: $home_dir", [ 'class' => get_called_class() ] );
+
+    }
+
+    $config_dir = "$home_dir/.config/jjcmd";
+
+    if ( ! is_dir( $config_dir ) ) {
+
+      mud_mkdir( $config_dir, 0755 );
+    }
+
+    $new_path_file = "$config_dir/new-path.txt";
+
+    if ( file_exists( $new_path_file ) ) {
+
+      return trim( file_get_contents( $new_path_file ) );
+
+    }
+
+    return null;
+
   }
 
   protected function get_path( string $spec ) {
