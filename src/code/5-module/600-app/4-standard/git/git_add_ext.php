@@ -15,11 +15,11 @@ class jj_git_add_ext extends AppSubtask {
 
   protected function define_description() : string {
 
-    $result = "Adds a submodule to an existing git repo.";
+    $result = "Adds a submodule to an existing git repo.\n";
 
     foreach ( APP_GIT_SUBMODULE_MAP as $spec => $url ) {
 
-      $result .= "\n  - $spec: $url";
+      $result .= "\n* $spec: $url";
 
     }
 
