@@ -23,6 +23,7 @@ class jj_git_add_ext extends AppSubtask {
 
     }
 
+    return $result;
 
   }
 
