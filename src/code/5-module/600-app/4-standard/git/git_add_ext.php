@@ -15,7 +15,11 @@ class jj_git_add_ext extends AppSubtask {
 
   protected function define_description() : string {
 
-    $result = "Adds a submodule to an existing git repo.\n";
+    $result = "Adds a submodule to an existing git repo.\n\n";
+
+    $result .= "For example `jj add-ext mudball` will add the latest mudball repo.\n\n";
+
+    $result .= "Available submodules are:\n";
 
     foreach ( APP_GIT_SUBMODULE_MAP as $spec => $url ) {
 
