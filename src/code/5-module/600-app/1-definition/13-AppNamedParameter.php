@@ -32,4 +32,9 @@ class AppNamedParameter extends AppParameter {
   public function is_named() : bool { return true; }
   public function is_flag() : bool { return false; }
 
+  public function get_usage() : string {
+
+    return $this->name;
+
+  }
 }
